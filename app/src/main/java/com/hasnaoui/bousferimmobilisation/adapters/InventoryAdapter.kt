@@ -32,7 +32,7 @@ class InventoryAdapter(private val items: MutableList<InventoryModel>, private v
         holder.itemView.setOnClickListener {
 
             val intent = Intent(it.context, ProductDetails::class.java).apply {
-
+                putExtra("exist", "true")
                 putExtra("category", product.data.category_id[1].toString())
                 putExtra("id", product.id)
                 putExtra("name", product.asset_id[1].toString())

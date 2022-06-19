@@ -23,5 +23,8 @@ interface InventaireApi {
 
     @POST("/save_asset_asset_line")
     suspend fun saveAssetAssetLine(@Body request:PostRequest):Response<PostRequest>
+
+    @POST("/save_asset_asset_line_exist_not")
+    suspend fun saveAssetAssetLineExistNot(@Body request:PostRequest):Response<PostRequest>
 }
 //

@@ -74,8 +74,8 @@ class ProductDetails : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
             // Set Adapter to Spinner
             spinner.adapter = aa
-            val from = intent.getStringExtra("from")
-            val asset_id = intent.getStringExtra("asset_id")!!.toDouble().toInt()
+            val exist = intent.getStringExtra("exist")
+            val asset_id = intent.getIntExtra("asset_id",0)
             val inventory_id = intent.getIntExtra("inv_id", 0)
             val id = intent.getIntExtra("id", 0)
             val category = intent.getStringExtra("category")
@@ -102,13 +102,12 @@ class ProductDetails : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             }
             tvDateInventaire.text = dateInventory?.let { falseToString(it) }
 
-            if (etat == "draft" || from == "QRCODE") {
+            if (etat == "draft") {
 
                 etComment.isFocusable = true;
                 etComment.isClickable = true;
                 etComment.isEnabled = true
             } else {
-
                 addPicture.visibility = View.GONE
                 saveButton.visibility = View.GONE
                 etComment.isEnabled = false
@@ -176,43 +175,13 @@ class ProductDetails : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             }
 
             saveButton.setOnClickListener {
-                val inventaireApi = RetrofitHelper.getInstance().create(InventaireApi::class.java)
-                // launching a new coroutine
-                GlobalScope.launch(Dispatchers.Main) {
-                    if (dataList.isNotEmpty()) {
-                        for (i in 0 until dataList.size) {
-                            dataAffectation.add(
-                                DataAffectation(
-                                    dataList[i].name,
-                                    dataList[i].comment.toString(),
-                                    dataList[i].id,
-                                    dataList[i].checked.toString().toBoolean()
-                                )
-                            )
-                        }
-                    }
 
-                    val post = PostRequest(
-                        etComment.text.toString(),
-                        switchQuality(binding.spinner.selectedItem.toString()),
-                        asset_id,
-                        "done",
-                        inventory_id,
-                        tvDateInventaire.text.toString(),
-                        image1,
-                        image2,
-                        image3,
-                        dataAffectation
-                    )
-
-                    inventaireApi.saveAssetAssetLine(post)
-
-                    dataAffectation.clear()
-                    val intent = Intent(this@ProductDetails, MainActivity::class.java).apply{
-                        putExtra("inv_id",inventory_id)
-                    }
-                    startActivity(intent)
+                if(exist.toBoolean()){
+                    saveIfExistOrNot(id,etComment.text.toString(),asset_id,inventory_id,tvDateInventaire.text.toString(),true)
+                }else{
+                    saveIfExistOrNot(id,etComment.text.toString(),asset_id,inventory_id,tvDateInventaire.text.toString(),false)
                 }
+
             }
 
             affectationAdapter = AffectationAdapter(dataList, etat)
@@ -221,12 +190,60 @@ class ProductDetails : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                 adapter = affectationAdapter
 
 
-                loadPartsAndUpdateList(id)
+                getCheckListAndPopulateRV(id)
 
             }
 
         }
 
+    }
+
+
+
+    private fun saveIfExistOrNot(idA:Int, etCommentA:String, asset_idA:Int, inventory_idA:Int, tvDateInventaireA:String, exist:Boolean){
+        val inventaireApi = RetrofitHelper.getInstance().create(InventaireApi::class.java)
+        // launching a new coroutine
+        GlobalScope.launch(Dispatchers.Main) {
+            if (dataList.isNotEmpty()) {
+                for (i in 0 until dataList.size) {
+                    dataAffectation.add(
+                        DataAffectation(
+                            dataList[i].name,
+                            dataList[i].comment.toString(),
+                            dataList[i].id,
+                            dataList[i].checked.toString().toBoolean()
+                        )
+                    )
+                }
+            }
+
+            val post = PostRequest(
+                idA,
+                etCommentA,
+                switchQuality(binding.spinner.selectedItem.toString()),
+                asset_idA,
+                "done",
+                inventory_idA,
+                tvDateInventaireA,
+                image1,
+                image2,
+                image3,
+                dataAffectation
+            )
+
+            Log.e("Post ",post.toString())
+            if (exist){
+            inventaireApi.saveAssetAssetLine(post)
+            }else{
+                inventaireApi.saveAssetAssetLineExistNot(post)
+            }
+
+            dataAffectation.clear()
+            val intent = Intent(this@ProductDetails, InventoryDetails::class.java).apply{
+                putExtra("inv_id",inventory_idA)
+            }
+            startActivity(intent)
+        }
     }
 
     private val cameraLauncher =
@@ -266,7 +283,7 @@ class ProductDetails : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         return File.createTempFile("temp_image", ".jpg", storageDir)
     }
 
-    private fun loadPartsAndUpdateList(userId: Int) {
+    private fun getCheckListAndPopulateRV(userId: Int) {
         val progressBar: ProgressBar = binding.progressBarDetail
         Dexter.withContext(this@ProductDetails).withPermission(Manifest.permission.INTERNET)
             .withListener(object : PermissionListener {

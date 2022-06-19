@@ -4,11 +4,13 @@ import android.app.Activity
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.hasnaoui.bousferimmobilisation.InventoryDetails
 import com.hasnaoui.bousferimmobilisation.databinding.ItemCostumListLayoutBinding
 
 class CustomListItemAdapter(
     private val activity: Activity,
     private val listItems: List<String>,
+    private val activityFrom: Activity?,
     private val selection: String
 ) :
     RecyclerView.Adapter<CustomListItemAdapter.ViewHolder>() {
@@ -42,7 +44,10 @@ class CustomListItemAdapter(
         holder.tvText.text = item
 
         holder.itemView.setOnClickListener {
+            if(activityFrom is InventoryDetails){
 
+                activityFrom.filterSelection(item)
+            }
 
         }
     }
