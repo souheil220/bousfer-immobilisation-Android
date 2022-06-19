@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="back_icon" type="id" />
+    <item name="qr_scanner" type="id" />
+    <item name="check_icon" type="id" />
+</resources>

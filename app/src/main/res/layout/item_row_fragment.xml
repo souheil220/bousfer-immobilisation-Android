@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:weightSum="4">
+    <LinearLayout
+        android:layout_width="100dp"
+        android:layout_height="match_parent"
+        android:layout_weight="2">
+        <ImageView
+            android:id="@+id/image"
+
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/ic_task_image"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_weight="2"
+        android:layout_width="100dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+       >
+        <TextView
+            android:id="@+id/tv_name"
+            android:gravity="center"
+            android:layout_weight="2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Name"/>
+        <TextView
+            android:id="@+id/tv_detail"
+            android:gravity="center"
+            android:layout_weight="2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="INV GSH 2021"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:layout_gravity=""
+            android:background="@color/red"/>
+    </LinearLayout>
+</LinearLayout>
