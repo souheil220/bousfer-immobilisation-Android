@@ -8,7 +8,12 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="red">#FF0000</color>
-    <color name="light_blue">#0285ED</color>
+<!--    <color name="light_blue">#0285ED</color>-->
+
+    <color name="night_blue">#001B48</color>
+    <color name="dark_blue">#004581</color>
+    <color name="light_blue">#97CBDC</color>
+    <color name="shrimp">#FCD5CE</color>
 
 
     <color name="blue_grey_700">#37474f</color>

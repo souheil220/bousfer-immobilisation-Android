@@ -23,6 +23,7 @@ class SampleAdapter(val items:MutableList<SampleModel>):RecyclerView.Adapter<Sam
         holder.itemView.setOnClickListener {
             val intent = Intent(it.context, InventoryDetails::class.java).apply {
                 putExtra("inv_id", inventory.id)
+                putExtra("inv_title", inventory.name)
             }
                it.context.startActivity(intent)
         }
@@ -34,8 +35,7 @@ class SampleAdapter(val items:MutableList<SampleModel>):RecyclerView.Adapter<Sam
             fun bind(item: SampleModel){
                 binding.apply {
                     inventoryId.text = item.name
-                    dateInv.text = item.date
-                    societe.text = item.id.toString()
+
                     confirmation.text = item.state
                 }
             }

@@ -59,6 +59,7 @@ class ProductDetails : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     private var image1 = ""
     private var image2 = ""
     private var image3 = ""
+    private var name = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -79,7 +80,7 @@ class ProductDetails : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             val inventory_id = intent.getIntExtra("inv_id", 0)
             val id = intent.getIntExtra("id", 0)
             val category = intent.getStringExtra("category")
-            val name = intent.getStringExtra("name")
+            name = intent.getStringExtra("name").toString()
             val centre_de_cout = intent.getStringExtra("centre_de_cout")
             val location = intent.getStringExtra("location")
             val numSerie = intent.getStringExtra("numSerie")
@@ -219,6 +220,7 @@ class ProductDetails : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
             val post = PostRequest(
                 idA,
+                name,
                 etCommentA,
                 switchQuality(binding.spinner.selectedItem.toString()),
                 asset_idA,
@@ -231,10 +233,12 @@ class ProductDetails : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                 dataAffectation
             )
 
-            Log.e("Post ",post.toString())
             if (exist){
+            Log.e("Post ",exist.toString())
+
             inventaireApi.saveAssetAssetLine(post)
             }else{
+                Log.e("Post ",exist.toString())
                 inventaireApi.saveAssetAssetLineExistNot(post)
             }
 
@@ -378,7 +382,7 @@ class ProductDetails : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         return if (imagePath!=""){
             val byteArrayOutputStream = ByteArrayOutputStream()
             val bitmap = BitmapFactory.decodeFile(imagePath)
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 50, byteArrayOutputStream)
             val imageBytes: ByteArray = byteArrayOutputStream.toByteArray()
 
             Base64.encodeToString(imageBytes, Base64.DEFAULT)

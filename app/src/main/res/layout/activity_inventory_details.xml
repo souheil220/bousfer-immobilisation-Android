@@ -4,14 +4,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".InventoryDetails">
+    tools:context=".InventoryDetails"
+    android:background="@color/dark_blue">
 
     <include layout="@layout/toolbar"/>
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tab_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:background="@color/dark_blue"
         />
 
     <LinearLayout
@@ -28,7 +30,12 @@
                 android:id="@+id/etSearch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Recherche"/>
+                android:hint="Recherche"
+                android:textColorHint="@color/white"
+                android:textColor="@color/white"
+                android:textColorHighlight="@color/white"
+                app:backgroundTint="@color/white"
+                />
         </com.google.android.material.textfield.TextInputLayout>
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout

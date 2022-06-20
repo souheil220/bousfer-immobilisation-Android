@@ -2,6 +2,7 @@ package com.hasnaoui.bousferimmobilisation
 
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.ActivityNotFoundException
 import android.content.Intent
@@ -14,7 +15,9 @@ import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
+import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -22,7 +25,6 @@ import com.hasnaoui.bousferimmobilisation.adapters.CustomListItemAdapter
 import com.hasnaoui.bousferimmobilisation.adapters.InventoryAdapter
 import com.hasnaoui.bousferimmobilisation.databinding.ActivityInventoryDetailsBinding
 import com.hasnaoui.bousferimmobilisation.databinding.DialogCustumListBinding
-import com.hasnaoui.bousferimmobilisation.databinding.ToolbarBinding
 import com.hasnaoui.bousferimmobilisation.models.AssetQRModel
 import com.hasnaoui.bousferimmobilisation.models.InventoryModel
 import com.hasnaoui.bousferimmobilisation.utils.Constants
@@ -40,24 +42,34 @@ import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 class InventoryDetails : AppCompatActivity() {
     private lateinit var binding: ActivityInventoryDetailsBinding
     private var dataList: ArrayList<InventoryModel> = ArrayList()
     private var inv_id: Int = 0
+    private var inv_title: String = ""
     private lateinit var inventoryAdapter: InventoryAdapter
-    private lateinit var toolBarBinding: ToolbarBinding
     private lateinit var gCustomDialog: Dialog
+    @SuppressLint("RestrictedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = ActivityInventoryDetailsBinding.inflate(layoutInflater)
         inv_id = intent.getIntExtra("inv_id", 0)
-        toolBarBinding = ToolbarBinding.inflate(layoutInflater)
+        inv_title = intent.getStringExtra("inv_title").toString()
         super.onCreate(savedInstanceState)
 
         setContentView(binding.root)
 
+
+
+        val appBarTitle:TextView = findViewById(R.id.inv_title)
+        val appBarBackArrow:ImageView = findViewById(R.id.back_icon_o)
+        appBarTitle.text = inv_title
+
+        appBarBackArrow.setOnClickListener {
+            val intent = Intent(this@InventoryDetails,MainActivity::class.java)
+            startActivity(intent)
+        }
 
         loadInventoryLine(inv_id.toString(), "onCreate")
 
@@ -309,7 +321,7 @@ class InventoryDetails : AppCompatActivity() {
                                     ProductDetails::class.java
                                 ).apply {
                                     putExtra("exist", "false")
-                                    putExtra("id", dataListQR[0].id)
+                                    putExtra("id", dataList[0].id)
                                     putExtra(
                                         "category",
                                         dataListQR[0].category_id[1].toString()

@@ -11,6 +11,7 @@ import com.hasnaoui.bousferimmobilisation.ProductDetails
 import com.hasnaoui.bousferimmobilisation.R
 import com.hasnaoui.bousferimmobilisation.databinding.ItemRowInventoryFragmentBinding
 import com.hasnaoui.bousferimmobilisation.models.InventoryModel
+import com.hasnaoui.bousferimmobilisation.utils.Constants
 import com.squareup.picasso.Picasso
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -110,7 +111,8 @@ class InventoryAdapter(private val items: MutableList<InventoryModel>, private v
 //                }
 //                item.image?.let { productImage.setImageResource(it)
 //                }
-                Picasso.get().load("http://10.0.2.2:5000/images/${item.data.num_serie}.jpg").fit().centerCrop()
+//                Picasso.get().load("http://10.0.2.2:5000/images/${item.data.num_serie}.jpg").fit().centerCrop()
+                Picasso.get().load("${Constants.BASE_URL}/images/ZDH6NFPT.jpg").fit().centerCrop()
                     .into(productImage);
             }
         }

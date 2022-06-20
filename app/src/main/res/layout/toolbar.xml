@@ -3,7 +3,7 @@
 
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/red">
+    android:background="@color/dark_blue">
     <RelativeLayout
         android:id="@+id/relativeLayout1"
         android:layout_width="match_parent"
@@ -16,15 +16,18 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:src="@drawable/ic_back" />
+
         <TextView
+            android:id="@+id/inv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
             android:layout_marginStart="16dp"
-            android:gravity="center"
             android:layout_toEndOf="@+id/back_icon_o"
-            android:textSize="20sp"
+            android:gravity="center"
             android:text="INV GSH 2021"
-            android:layout_centerVertical="true"/>
+            android:textColor="@color/white"
+            android:textSize="20sp" />
 
         <ImageView
             android:id="@+id/qr_scanner_o"
