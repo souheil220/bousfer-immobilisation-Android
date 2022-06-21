@@ -25,14 +25,14 @@
             android:layout_height="wrap_content"
             android:padding="16dp"
             android:layout_margin="16dp"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+           >
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/etSearch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Recherche"
                 android:textColorHint="@color/white"
-                android:textColor="@color/white"
+                android:textColor="#000"
                 android:textColorHighlight="@color/white"
                 app:backgroundTint="@color/white"
                 />

@@ -6,6 +6,7 @@ import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.ActivityNotFoundException
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
@@ -105,6 +106,7 @@ class InventoryDetails : AppCompatActivity() {
                 }
 
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
                 }
             })
 
@@ -138,7 +140,6 @@ class InventoryDetails : AppCompatActivity() {
         gCustomDialog = Dialog(this@InventoryDetails)
         val binding: DialogCustumListBinding = DialogCustumListBinding.inflate(layoutInflater)
         gCustomDialog.setContentView(binding.root)
-        binding.tvTitle.text = "Hello"
         val inventoryOption = Constants.inventoryOption()
         inventoryOption.add(0, Constants.ALL_OPTIONS)
         binding.rvList.layoutManager = LinearLayoutManager(this@InventoryDetails)
