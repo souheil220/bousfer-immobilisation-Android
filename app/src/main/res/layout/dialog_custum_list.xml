@@ -6,14 +6,6 @@
     android:orientation="vertical"
     android:padding="10dp">
 
-    <TextView
-        android:id="@+id/tv_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@color/grey_900"
-        android:textSize="15sp"
-        android:textStyle="bold"
-        tools:text="Dialog Title" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_list"
@@ -21,5 +13,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:visibility="visible"
-        tools:visibility="visible" />
+        tools:visibility="visible"
+        android:background="@color/white"/>
 </LinearLayout>

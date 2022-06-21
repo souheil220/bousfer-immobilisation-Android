@@ -76,7 +76,7 @@ class InventoryDetails : AppCompatActivity() {
 
 
         binding.apply {
-            createMyRecycle(dataList)
+            createMyRecycle(dataList,inv_title)
 
             val scanIcon: ImageView = findViewById(R.id.qr_scanner_o)
 
@@ -132,7 +132,7 @@ class InventoryDetails : AppCompatActivity() {
             }
         }
 
-        createMyRecycle(filteredListSearch)
+        createMyRecycle(filteredListSearch,inv_title)
 
     }
 
@@ -153,9 +153,9 @@ class InventoryDetails : AppCompatActivity() {
         gCustomDialog.show()
     }
 
-    private fun createMyRecycle(listOfProduct: ArrayList<InventoryModel>) {
+    private fun createMyRecycle(listOfProduct: ArrayList<InventoryModel>,inv_title:String) {
         binding.detailListNonInv.layoutManager = LinearLayoutManager(this@InventoryDetails)
-        inventoryAdapter = InventoryAdapter(listOfProduct, inv_id)
+        inventoryAdapter = InventoryAdapter(listOfProduct, inv_id,inv_title)
         binding.detailListNonInv.adapter = inventoryAdapter
     }
 
@@ -214,6 +214,7 @@ class InventoryDetails : AppCompatActivity() {
                                             ProductDetails::class.java
                                         ).apply {
                                             putExtra("exist", "true")
+                                            putExtra("inv_title", inv_title)
                                             putExtra("from", "QRCODE")
                                             putExtra("etat", asset.state)
                                             putExtra("id", asset.id)
@@ -322,6 +323,7 @@ class InventoryDetails : AppCompatActivity() {
                                     ProductDetails::class.java
                                 ).apply {
                                     putExtra("exist", "false")
+                                    putExtra("inv_title", inv_title)
                                     putExtra("id", dataList[0].id)
                                     putExtra(
                                         "category",
@@ -492,7 +494,7 @@ class InventoryDetails : AppCompatActivity() {
         Log.e("Filter Selection ", filterItemSelection)
 
         if (filterItemSelection == Constants.ALL_OPTIONS) {
-            createMyRecycle(dataList)
+            createMyRecycle(dataList,inv_title)
         } else {
             when (filterItemSelection) {
                 "Inventorié" -> {
@@ -508,7 +510,7 @@ class InventoryDetails : AppCompatActivity() {
                     filteredLisFilter.add(product)
                 }
             }
-            createMyRecycle(filteredLisFilter)
+            createMyRecycle(filteredLisFilter,inv_title)
         }
     }
 

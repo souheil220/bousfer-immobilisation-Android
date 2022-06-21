@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.CompoundButton
 import androidx.recyclerview.widget.RecyclerView
 import com.hasnaoui.bousferimmobilisation.databinding.AffectedToRowBinding
-import com.hasnaoui.bousferimmobilisation.databinding.ItemRowFragmentBinding
 import com.hasnaoui.bousferimmobilisation.models.AffectationModel
 import com.hasnaoui.bousferimmobilisation.models.DetailModel
 

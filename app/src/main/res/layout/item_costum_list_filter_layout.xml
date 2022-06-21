@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/white">
 
     <TextView
         android:id="@+id/tv_text"
@@ -13,7 +14,7 @@
         android:gravity="center"
         android:padding="10sp"
         android:textAllCaps="true"
-        android:textColor="@color/grey_900"
+        android:textColor="@color/dark_blue"
         android:textSize="16sp"
         tools:text="Item Value" />
 

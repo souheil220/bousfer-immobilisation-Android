@@ -8,8 +8,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.hasnaoui.bousferimmobilisation.ProductDetails
-import com.hasnaoui.bousferimmobilisation.R
-import com.hasnaoui.bousferimmobilisation.databinding.ItemRowInventoryFragmentBinding
+import com.hasnaoui.bousferimmobilisation.databinding.ItemRowInventoryLineBinding
 import com.hasnaoui.bousferimmobilisation.models.InventoryModel
 import com.hasnaoui.bousferimmobilisation.utils.Constants
 import com.squareup.picasso.Picasso
@@ -18,12 +17,12 @@ import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.*
 
-class InventoryAdapter(private val items: MutableList<InventoryModel>, private val inv_id: Int) :
+class InventoryAdapter(private val items: MutableList<InventoryModel>, private val inv_id: Int,private val inv_title:String) :
     RecyclerView.Adapter<InventoryAdapter.ViewHolder>() {
-    private lateinit var binding: ItemRowInventoryFragmentBinding
+    private lateinit var binding: ItemRowInventoryLineBinding
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): InventoryAdapter.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        binding = ItemRowInventoryFragmentBinding.inflate(inflater, parent, false)
+        binding = ItemRowInventoryLineBinding.inflate(inflater, parent, false)
         return ViewHolder(binding)
     }
 
@@ -34,6 +33,7 @@ class InventoryAdapter(private val items: MutableList<InventoryModel>, private v
 
             val intent = Intent(it.context, ProductDetails::class.java).apply {
                 putExtra("exist", "true")
+                putExtra("inv_title", inv_title)
                 putExtra("category", product.data.category_id[1].toString())
                 putExtra("id", product.id)
                 putExtra("name", product.asset_id[1].toString())
@@ -70,7 +70,7 @@ class InventoryAdapter(private val items: MutableList<InventoryModel>, private v
 
     override fun getItemCount() = items.size
 
-    inner class ViewHolder(itemView: ItemRowInventoryFragmentBinding) :
+    inner class ViewHolder(itemView: ItemRowInventoryLineBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: InventoryModel) {
             binding.apply {

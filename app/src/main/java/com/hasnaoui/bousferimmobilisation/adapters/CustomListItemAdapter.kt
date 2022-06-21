@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.hasnaoui.bousferimmobilisation.InventoryDetails
-import com.hasnaoui.bousferimmobilisation.databinding.ItemCostumListLayoutBinding
+import com.hasnaoui.bousferimmobilisation.databinding.ItemCostumListFilterLayoutBinding
 
 class CustomListItemAdapter(
     private val activity: Activity,
@@ -22,8 +22,8 @@ class CustomListItemAdapter(
      * {@link ViewHolder} and initializes some private fields to be used by RecyclerView.
      */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding: ItemCostumListLayoutBinding =
-            ItemCostumListLayoutBinding.inflate(LayoutInflater.from(activity), parent, false)
+        val binding: ItemCostumListFilterLayoutBinding =
+            ItemCostumListFilterLayoutBinding.inflate(LayoutInflater.from(activity), parent, false)
         return ViewHolder(binding)
     }
 
@@ -62,7 +62,7 @@ class CustomListItemAdapter(
     /**
      * A ViewHolder describes an item view and metadata about its place within the RecyclerView.
      */
-    class ViewHolder(view: ItemCostumListLayoutBinding) : RecyclerView.ViewHolder(view.root) {
+    class ViewHolder(view: ItemCostumListFilterLayoutBinding) : RecyclerView.ViewHolder(view.root) {
         // Holds the TextView that will add each item to
         val tvText = view.tvText
     }

@@ -7,9 +7,11 @@
         <entry key="..\:/Users/hadjhabib_s/AndroidStudioProjects/BousferImmobilisation/app/src/main/res/drawable/custome_linearlaout_bg.xml" value="0.286" />
         <entry key="..\:/Users/hadjhabib_s/AndroidStudioProjects/BousferImmobilisation/app/src/main/res/drawable/ic_back.xml" value="0.3395" />
         <entry key="..\:/Users/hadjhabib_s/AndroidStudioProjects/BousferImmobilisation/app/src/main/res/drawable/ic_baseline_category_24.xml" value="0.152" />
+        <entry key="..\:/Users/hadjhabib_s/AndroidStudioProjects/BousferImmobilisation/app/src/main/res/drawable/ic_baseline_comment_24.xml" value="0.2375" />
         <entry key="..\:/Users/hadjhabib_s/AndroidStudioProjects/BousferImmobilisation/app/src/main/res/drawable/ic_baseline_star_half_24.xml" value="0.287" />
         <entry key="..\:/Users/hadjhabib_s/AndroidStudioProjects/BousferImmobilisation/app/src/main/res/drawable/ic_check_circle.xml" value="0.1765" />
         <entry key="..\:/Users/hadjhabib_s/AndroidStudioProjects/BousferImmobilisation/app/src/main/res/drawable/ic_clock.xml" value="0.1765" />
+        <entry key="..\:/Users/hadjhabib_s/AndroidStudioProjects/BousferImmobilisation/app/src/main/res/drawable/ic_comment.xml" value="0.2" />
         <entry key="..\:/Users/hadjhabib_s/AndroidStudioProjects/BousferImmobilisation/app/src/main/res/drawable/ic_date.xml" value="0.1765" />
         <entry key="..\:/Users/hadjhabib_s/AndroidStudioProjects/BousferImmobilisation/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1765" />
         <entry key="..\:/Users/hadjhabib_s/AndroidStudioProjects/BousferImmobilisation/app/src/main/res/drawable/ic_location.xml" value="0.1765" />
@@ -19,12 +21,13 @@
         <entry key="..\:/Users/hadjhabib_s/AndroidStudioProjects/BousferImmobilisation/app/src/main/res/drawable/ic_qr_scaner.xml" value="0.1615" />
         <entry key="..\:/Users/hadjhabib_s/AndroidStudioProjects/BousferImmobilisation/app/src/main/res/drawable/ic_rating.xml" value="0.1765" />
         <entry key="..\:/Users/hadjhabib_s/AndroidStudioProjects/BousferImmobilisation/app/src/main/res/drawable/ic_save.xml" value="0.1765" />
+        <entry key="..\:/Users/hadjhabib_s/AndroidStudioProjects/BousferImmobilisation/app/src/main/res/drawable/ic_serialnumber.xml" value="0.2375" />
         <entry key="..\:/Users/hadjhabib_s/AndroidStudioProjects/BousferImmobilisation/app/src/main/res/layout/activity_base.xml" value="0.10400000000000001" />
-        <entry key="..\:/Users/hadjhabib_s/AndroidStudioProjects/BousferImmobilisation/app/src/main/res/layout/activity_inventory_details.xml" value="0.2" />
+        <entry key="..\:/Users/hadjhabib_s/AndroidStudioProjects/BousferImmobilisation/app/src/main/res/layout/activity_inventory_details.xml" value="0.264" />
         <entry key="..\:/Users/hadjhabib_s/AndroidStudioProjects/BousferImmobilisation/app/src/main/res/layout/activity_main.xml" value="0.19202898550724637" />
         <entry key="..\:/Users/hadjhabib_s/AndroidStudioProjects/BousferImmobilisation/app/src/main/res/layout/activity_product_details.xml" value="0.23645833333333333" />
         <entry key="..\:/Users/hadjhabib_s/AndroidStudioProjects/BousferImmobilisation/app/src/main/res/layout/affected_to_row.xml" value="0.25" />
-        <entry key="..\:/Users/hadjhabib_s/AndroidStudioProjects/BousferImmobilisation/app/src/main/res/layout/dialog_custum_list.xml" value="0.11574074074074074" />
+        <entry key="..\:/Users/hadjhabib_s/AndroidStudioProjects/BousferImmobilisation/app/src/main/res/layout/dialog_custum_list.xml" value="0.264" />
         <entry key="..\:/Users/hadjhabib_s/AndroidStudioProjects/BousferImmobilisation/app/src/main/res/layout/fragment_details.xml" value="0.2078125" />
         <entry key="..\:/Users/hadjhabib_s/AndroidStudioProjects/BousferImmobilisation/app/src/main/res/layout/fragment_inventory.xml" value="0.25" />
         <entry key="..\:/Users/hadjhabib_s/AndroidStudioProjects/BousferImmobilisation/app/src/main/res/layout/fragment_non_inventory.xml" value="0.12545289855072464" />

@@ -6,6 +6,8 @@ import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
@@ -17,6 +19,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.ProgressBar
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
@@ -36,6 +39,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.io.ByteArrayOutputStream
 import java.io.File
+
 
 class ProductDetails : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     private lateinit var binding: ActivityProductDetailsBinding
@@ -60,11 +64,17 @@ class ProductDetails : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     private var image2 = ""
     private var image3 = ""
     private var name = ""
+    private var inv_title = ""
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityProductDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val actionBar: ActionBar? = supportActionBar
+        val colorDrawable = ColorDrawable(Color.parseColor("#97CBDC"))
+        actionBar!!.setBackgroundDrawable(colorDrawable)
 
         binding.apply {
             spinner.setOnItemSelectedListener(this@ProductDetails)
@@ -76,6 +86,7 @@ class ProductDetails : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             // Set Adapter to Spinner
             spinner.adapter = aa
             val exist = intent.getStringExtra("exist")
+            inv_title = intent.getStringExtra("inv_title").toString()
             val asset_id = intent.getIntExtra("asset_id",0)
             val inventory_id = intent.getIntExtra("inv_id", 0)
             val id = intent.getIntExtra("id", 0)
@@ -95,6 +106,8 @@ class ProductDetails : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             tvCentreDeCout.text = centre_de_cout?.let { falseToString(it) }
             tvLocation.text = location?.let { falseToString(it) }
             tvNumSerie.text = numSerie?.let { falseToString(it) }
+
+            Log.e("inv_title",inv_title)
             if (etat == "draft") {
                 tvQuality.isVisible = false
             } else {
@@ -176,7 +189,6 @@ class ProductDetails : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             }
 
             saveButton.setOnClickListener {
-
                 if(exist.toBoolean()){
                     saveIfExistOrNot(id,etComment.text.toString(),asset_id,inventory_id,tvDateInventaire.text.toString(),true)
                 }else{
@@ -203,6 +215,7 @@ class ProductDetails : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
     private fun saveIfExistOrNot(idA:Int, etCommentA:String, asset_idA:Int, inventory_idA:Int, tvDateInventaireA:String, exist:Boolean){
         val inventaireApi = RetrofitHelper.getInstance().create(InventaireApi::class.java)
+        val progressBar: ProgressBar = binding.progressSave
         // launching a new coroutine
         GlobalScope.launch(Dispatchers.Main) {
             if (dataList.isNotEmpty()) {
@@ -232,19 +245,19 @@ class ProductDetails : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                 image3,
                 dataAffectation
             )
-
+            progressBar.visibility = View.VISIBLE
             if (exist){
             Log.e("Post ",exist.toString())
-
             inventaireApi.saveAssetAssetLine(post)
             }else{
                 Log.e("Post ",exist.toString())
                 inventaireApi.saveAssetAssetLineExistNot(post)
             }
-
             dataAffectation.clear()
+            progressBar.visibility = View.INVISIBLE
             val intent = Intent(this@ProductDetails, InventoryDetails::class.java).apply{
                 putExtra("inv_id",inventory_idA)
+                putExtra("inv_title",inv_title)
             }
             startActivity(intent)
         }

@@ -7,13 +7,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.hasnaoui.bousferimmobilisation.InventoryDetails
 import com.hasnaoui.bousferimmobilisation.models.SampleModel
-import com.hasnaoui.bousferimmobilisation.databinding.ItemRowBinding
+import com.hasnaoui.bousferimmobilisation.databinding.ItemRowListInventaireBinding
 
 class SampleAdapter(val items:MutableList<SampleModel>):RecyclerView.Adapter<SampleAdapter.ViewHolder> (){
-    private lateinit var binding: ItemRowBinding
+    private lateinit var binding: ItemRowListInventaireBinding
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        binding = ItemRowBinding.inflate(inflater,parent,false)
+        binding = ItemRowListInventaireBinding.inflate(inflater,parent,false)
         return ViewHolder(binding)
     }
 
@@ -31,7 +31,7 @@ class SampleAdapter(val items:MutableList<SampleModel>):RecyclerView.Adapter<Sam
 
     override fun getItemCount() = items.size
 
-    inner class ViewHolder(itemView: ItemRowBinding):RecyclerView.ViewHolder(itemView.root){
+    inner class ViewHolder(itemView: ItemRowListInventaireBinding):RecyclerView.ViewHolder(itemView.root){
             fun bind(item: SampleModel){
                 binding.apply {
                     inventoryId.text = item.name

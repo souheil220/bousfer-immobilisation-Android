@@ -3,6 +3,8 @@ package com.hasnaoui.bousferimmobilisation
 import android.Manifest
 import android.content.ActivityNotFoundException
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -12,6 +14,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
@@ -53,6 +56,15 @@ class MainActivity : AppCompatActivity() {
             toggle = ActionBarDrawerToggle(this@MainActivity,drawerLayout,R.string.open,R.string.close)
             drawerLayout.addDrawerListener(toggle)
             toggle.syncState()
+
+            val colorDrawable = ColorDrawable(Color.parseColor("#97CBDC"))
+
+            // Set BackgroundDrawable
+
+            // Set BackgroundDrawable
+            val actionBar: ActionBar? = supportActionBar
+
+            actionBar!!.setBackgroundDrawable(colorDrawable)
 
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
