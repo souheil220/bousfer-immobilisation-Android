@@ -80,7 +80,6 @@ class MainActivity : AppCompatActivity() {
                 true
             }
 
-//            loadData()
 
 
             sampleAdapter = SampleAdapter(dataList)

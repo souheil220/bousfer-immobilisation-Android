@@ -2,11 +2,10 @@ package com.hasnaoui.bousferimmobilisation
 
 import android.Manifest
 import android.R
+import android.app.Dialog
 import android.content.ActivityNotFoundException
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.Color
+import android.graphics.*
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
@@ -15,9 +14,7 @@ import android.provider.Settings
 import android.util.Base64
 import android.util.Log
 import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.ProgressBar
+import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AlertDialog
@@ -27,6 +24,7 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.hasnaoui.bousferimmobilisation.adapters.AffectationAdapter
 import com.hasnaoui.bousferimmobilisation.databinding.ActivityProductDetailsBinding
+import com.hasnaoui.bousferimmobilisation.databinding.ImageViewerBinding
 import com.hasnaoui.bousferimmobilisation.models.*
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.PermissionToken
@@ -66,6 +64,7 @@ class ProductDetails : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     private var name = ""
     private var inv_title = ""
 
+    private lateinit var gCustomDialog: Dialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,7 +76,7 @@ class ProductDetails : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         actionBar!!.setBackgroundDrawable(colorDrawable)
 
         binding.apply {
-            spinner.setOnItemSelectedListener(this@ProductDetails)
+            spinner.onItemSelectedListener = this@ProductDetails
             // Create an ArrayAdapter using a simple spinner layout and languages array
             val aa = ArrayAdapter(this@ProductDetails, R.layout.simple_spinner_item, list_of_items)
             // Set layout to use when the list of choices appear
@@ -86,10 +85,12 @@ class ProductDetails : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             // Set Adapter to Spinner
             spinner.adapter = aa
             val exist = intent.getStringExtra("exist")
+            val from = intent.getStringExtra("from")
             inv_title = intent.getStringExtra("inv_title").toString()
-            val asset_id = intent.getIntExtra("asset_id",0)
+            val asset_id = intent.getIntExtra("asset_id", 0)
             val inventory_id = intent.getIntExtra("inv_id", 0)
-            val id = intent.getIntExtra("id", 0)
+            val id = intent.getIntExtra("inventory_line_id", 0)
+            val quantite = intent.getIntExtra("quantite",0)
             val category = intent.getStringExtra("category")
             name = intent.getStringExtra("name").toString()
             val centre_de_cout = intent.getStringExtra("centre_de_cout")
@@ -102,12 +103,12 @@ class ProductDetails : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             val image = intent.getIntExtra("image", 0)
 
             tvCategory.text = category?.let { falseToString(it) }
-            tvTitle.text = name?.let { falseToString(it) }
+            tvTitle.text = falseToString(name)
             tvCentreDeCout.text = centre_de_cout?.let { falseToString(it) }
             tvLocation.text = location?.let { falseToString(it) }
             tvNumSerie.text = numSerie?.let { falseToString(it) }
 
-            Log.e("inv_title",inv_title)
+            Log.e("inv_title", inv_title)
             if (etat == "draft") {
                 tvQuality.isVisible = false
             } else {
@@ -131,6 +132,16 @@ class ProductDetails : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                 imageTest1.setImageResource(image)
             }
 
+            imageTest1.setOnClickListener {
+                filterInventoryDialog(Uri.parse(image1Path))
+            }
+            imageTest2.setOnClickListener {
+                filterInventoryDialog(Uri.parse(image2Path))
+            }
+            imageTest3.setOnClickListener {
+                filterInventoryDialog(Uri.parse(image3Path))
+            }
+            // Retrieve and cache the system's default "short" animation time.
             addPicture.setOnClickListener {
                 Dexter.withContext(this@ProductDetails).withPermission(Manifest.permission.CAMERA)
                     .withListener(object : PermissionListener {
@@ -189,10 +200,25 @@ class ProductDetails : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             }
 
             saveButton.setOnClickListener {
-                if(exist.toBoolean()){
-                    saveIfExistOrNot(id,etComment.text.toString(),asset_id,inventory_id,tvDateInventaire.text.toString(),true)
-                }else{
-                    saveIfExistOrNot(id,etComment.text.toString(),asset_id,inventory_id,tvDateInventaire.text.toString(),false)
+                binding.constraintLayout.alpha = 0.4F
+                if (exist.toBoolean()) {
+                    saveIfExistOrNot(
+                        id,
+                        etComment.text.toString(),
+                        asset_id,
+                        inventory_id,
+                        tvDateInventaire.text.toString(),
+                        true
+                    )
+                } else {
+                    saveIfExistOrNot(
+                        id,
+                        etComment.text.toString(),
+                        asset_id,
+                        inventory_id,
+                        tvDateInventaire.text.toString(),
+                        false
+                    )
                 }
 
             }
@@ -202,8 +228,16 @@ class ProductDetails : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                 layoutManager = LinearLayoutManager(this@ProductDetails)
                 adapter = affectationAdapter
 
-
-                getCheckListAndPopulateRV(id)
+                if (from == "click") {
+                    getCheckListAndPopulateRV(id)
+                }
+                else{
+                    progressBarDetail.visibility = View.INVISIBLE
+                    if(location != "" && location!=null){
+                    dataList.add(AffectationModel(true,"",0,"Localisé à: $location"))
+                    }
+                    dataList.add(AffectationModel(true,"",0,"Quantité attendue: $quantite"))
+                }
 
             }
 
@@ -211,9 +245,23 @@ class ProductDetails : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
     }
 
+    private fun filterInventoryDialog(image: Uri) {
+        gCustomDialog = Dialog(this@ProductDetails)
+        val binding: ImageViewerBinding = ImageViewerBinding.inflate(layoutInflater)
+        gCustomDialog.setContentView(binding.root)
+        binding.resizedImage.setImageURI(image)
+        gCustomDialog.show()
+    }
 
 
-    private fun saveIfExistOrNot(idA:Int, etCommentA:String, asset_idA:Int, inventory_idA:Int, tvDateInventaireA:String, exist:Boolean){
+    private fun saveIfExistOrNot(
+        idA: Int,
+        etCommentA: String,
+        asset_idA: Int,
+        inventory_idA: Int,
+        tvDateInventaireA: String,
+        exist: Boolean
+    ) {
         val inventaireApi = RetrofitHelper.getInstance().create(InventaireApi::class.java)
         val progressBar: ProgressBar = binding.progressSave
         // launching a new coroutine
@@ -246,18 +294,18 @@ class ProductDetails : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                 dataAffectation
             )
             progressBar.visibility = View.VISIBLE
-            if (exist){
-            Log.e("Post ",exist.toString())
-            inventaireApi.saveAssetAssetLine(post)
-            }else{
-                Log.e("Post ",exist.toString())
+            if (exist) {
+                Log.e("Post ", exist.toString())
+                inventaireApi.saveAssetAssetLine(post)
+            } else {
+                Log.e("Post ", exist.toString())
                 inventaireApi.saveAssetAssetLineExistNot(post)
             }
             dataAffectation.clear()
             progressBar.visibility = View.INVISIBLE
-            val intent = Intent(this@ProductDetails, InventoryDetails::class.java).apply{
-                putExtra("inv_id",inventory_idA)
-                putExtra("inv_title",inv_title)
+            val intent = Intent(this@ProductDetails, InventoryDetails::class.java).apply {
+                putExtra("inv_id", inventory_idA)
+                putExtra("inv_title", inv_title)
             }
             startActivity(intent)
         }
@@ -267,7 +315,7 @@ class ProductDetails : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         registerForActivityResult(ActivityResultContracts.TakePicture()) { success ->
             if (success) {
                 if (i <= 3) {
-                    Log.e("i ",i.toString())
+                    Log.e("i ", i.toString())
                     when (i) {
                         1 -> {
                             binding.imageTest1.setImageURI(tempImageUri)
@@ -300,7 +348,7 @@ class ProductDetails : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         return File.createTempFile("temp_image", ".jpg", storageDir)
     }
 
-    private fun getCheckListAndPopulateRV(userId: Int) {
+    private fun getCheckListAndPopulateRV(inventoryLineId: Int) {
         val progressBar: ProgressBar = binding.progressBarDetail
         Dexter.withContext(this@ProductDetails).withPermission(Manifest.permission.INTERNET)
             .withListener(object : PermissionListener {
@@ -312,9 +360,10 @@ class ProductDetails : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                         GlobalScope.launch(Dispatchers.Main) {
                             progressBar.visibility = View.VISIBLE
                             val result = inventaireApi.getCheckList(
-                                userId.toString()
+                                inventoryLineId.toString()
                             )
-
+                            Log.e("CheckList", result.body().toString())
+                            Log.e("CheckList", inventoryLineId.toString())
                             if (result.body() != null && result.body()!!.size != 0) {
                                 for (affect in 0 until result.body()!!.size) {
 
@@ -392,7 +441,7 @@ class ProductDetails : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     }
 
     private fun encodeToBase64(imagePath: String): String {
-        return if (imagePath!=""){
+        return if (imagePath != "") {
             val byteArrayOutputStream = ByteArrayOutputStream()
             val bitmap = BitmapFactory.decodeFile(imagePath)
             bitmap.compress(Bitmap.CompressFormat.JPEG, 50, byteArrayOutputStream)
@@ -403,13 +452,21 @@ class ProductDetails : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
     }
 
-    private fun switchQuality(quality:String):String{
-        var qualityFormatted=""
-          when(quality){
-                "Neuf" -> {qualityFormatted = "new"}
-                "Bon état" -> {qualityFormatted = "good"}
-                "Mauvais état" -> {qualityFormatted = "bad"}
-                "Hors service" -> {qualityFormatted = "breakdown"}
+    private fun switchQuality(quality: String): String {
+        var qualityFormatted = ""
+        when (quality) {
+            "Neuf" -> {
+                qualityFormatted = "new"
+            }
+            "Bon état" -> {
+                qualityFormatted = "good"
+            }
+            "Mauvais état" -> {
+                qualityFormatted = "bad"
+            }
+            "Hors service" -> {
+                qualityFormatted = "breakdown"
+            }
         }
         return qualityFormatted
     }

@@ -217,7 +217,7 @@ class InventoryDetails : AppCompatActivity() {
                                             putExtra("inv_title", inv_title)
                                             putExtra("from", "QRCODE")
                                             putExtra("etat", asset.state)
-                                            putExtra("id", asset.id)
+                                            putExtra("inventory_line_id", asset.id)
                                             putExtra(
                                                 "category",
                                                 dataListQR[0].category_id[1].toString()
@@ -324,7 +324,7 @@ class InventoryDetails : AppCompatActivity() {
                                 ).apply {
                                     putExtra("exist", "false")
                                     putExtra("inv_title", inv_title)
-                                    putExtra("id", dataList[0].id)
+                                    putExtra("inventory_line_id", dataList[0].id)
                                     putExtra(
                                         "category",
                                         dataListQR[0].category_id[1].toString()
@@ -335,6 +335,7 @@ class InventoryDetails : AppCompatActivity() {
                                             .format(DateTimeFormatter.ofPattern("y-MM-d H:mm:ss")).toString()
                                     )
                                     putExtra("name", dataListQR[0].name)
+                                    putExtra("quantite", dataListQR[0].quantite)
                                     putExtra("location", dataListQR[0].location)
                                     putExtra("centre_de_cout", dataListQR[0].centre_de_cout)
                                     putExtra("numSerie", dataListQR[0].num_serie)

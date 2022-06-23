@@ -32,10 +32,11 @@ class InventoryAdapter(private val items: MutableList<InventoryModel>, private v
         holder.itemView.setOnClickListener {
 
             val intent = Intent(it.context, ProductDetails::class.java).apply {
+                putExtra("from", "click")
                 putExtra("exist", "true")
                 putExtra("inv_title", inv_title)
                 putExtra("category", product.data.category_id[1].toString())
-                putExtra("id", product.id)
+                putExtra("inventory_line_id", product.id)
                 putExtra("name", product.asset_id[1].toString())
                 putExtra("asset_id", product.asset_id[0].toString())
                 putExtra("inv_id", inv_id)
@@ -117,11 +118,5 @@ class InventoryAdapter(private val items: MutableList<InventoryModel>, private v
             }
         }
 
-    }
-    private fun decodeImage(imageEncoded:String){
-        Log.e("image ","esssst")
-        val imageBytes = Base64.decode(imageEncoded, Base64.DEFAULT)
-        val decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
-        binding.productImage.setImageBitmap(decodedImage)
     }
 }
