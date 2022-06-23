@@ -26,6 +26,7 @@ import com.hasnaoui.bousferimmobilisation.adapters.AffectationAdapter
 import com.hasnaoui.bousferimmobilisation.databinding.ActivityProductDetailsBinding
 import com.hasnaoui.bousferimmobilisation.databinding.ImageViewerBinding
 import com.hasnaoui.bousferimmobilisation.models.*
+import com.hasnaoui.bousferimmobilisation.utils.Constants
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.PermissionDeniedResponse
@@ -84,23 +85,23 @@ class ProductDetails : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
             // Set Adapter to Spinner
             spinner.adapter = aa
-            val exist = intent.getStringExtra("exist")
-            val from = intent.getStringExtra("from")
-            inv_title = intent.getStringExtra("inv_title").toString()
-            val asset_id = intent.getIntExtra("asset_id", 0)
-            val inventory_id = intent.getIntExtra("inv_id", 0)
-            val id = intent.getIntExtra("inventory_line_id", 0)
-            val quantite = intent.getIntExtra("quantite",0)
-            val category = intent.getStringExtra("category")
-            name = intent.getStringExtra("name").toString()
-            val centre_de_cout = intent.getStringExtra("centre_de_cout")
-            val location = intent.getStringExtra("location")
-            val numSerie = intent.getStringExtra("numSerie")
-            quality = intent.getStringExtra("quality")!!
-            val dateInventory = intent.getStringExtra("dateInventory")
-            val etat = intent.getStringExtra("etat")!!
-            val comment = intent.getStringExtra("comment")
-            val image = intent.getIntExtra("image", 0)
+            val exist = intent.getStringExtra(Constants.EXIST)
+            val from = intent.getStringExtra(Constants.FROM)
+            inv_title = intent.getStringExtra(Constants.INVENTORY_TITLE).toString()
+            val asset_id = intent.getIntExtra(Constants.ASSET_ID, 0)
+            val inventory_id = intent.getIntExtra(Constants.INVENTORY_ID, 0)
+            val id = intent.getIntExtra(Constants.INVENTORY_LINE_ID, 0)
+            val quantite = intent.getIntExtra(Constants.QUANTITY,0)
+            val category = intent.getStringExtra(Constants.CATEGORY)
+            name = intent.getStringExtra(Constants.NAME).toString()
+            val centre_de_cout = intent.getStringExtra(Constants.CENTRE_DE_COUT)
+            val location = intent.getStringExtra(Constants.LOCATION)
+            val numSerie = intent.getStringExtra(Constants.NUMERO_DE_SERIE)
+            quality = intent.getStringExtra(Constants.QUALITY)!!
+            val dateInventory = intent.getStringExtra(Constants.DATE_INVENTORY)
+            val etat = intent.getStringExtra(Constants.ETAT)!!
+            val comment = intent.getStringExtra(Constants.COMMENT)
+            val image = intent.getIntExtra(Constants.IMAGE, 0)
 
             tvCategory.text = category?.let { falseToString(it) }
             tvTitle.text = falseToString(name)
@@ -108,7 +109,7 @@ class ProductDetails : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             tvLocation.text = location?.let { falseToString(it) }
             tvNumSerie.text = numSerie?.let { falseToString(it) }
 
-            Log.e("inv_title", inv_title)
+
             if (etat == "draft") {
                 tvQuality.isVisible = false
             } else {
@@ -304,8 +305,8 @@ class ProductDetails : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             dataAffectation.clear()
             progressBar.visibility = View.INVISIBLE
             val intent = Intent(this@ProductDetails, InventoryDetails::class.java).apply {
-                putExtra("inv_id", inventory_idA)
-                putExtra("inv_title", inv_title)
+                putExtra(Constants.INVENTORY_ID, inventory_idA)
+                putExtra(Constants.INVENTORY_TITLE, inv_title)
             }
             startActivity(intent)
         }

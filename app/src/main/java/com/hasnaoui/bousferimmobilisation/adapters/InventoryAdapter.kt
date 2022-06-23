@@ -32,34 +32,34 @@ class InventoryAdapter(private val items: MutableList<InventoryModel>, private v
         holder.itemView.setOnClickListener {
 
             val intent = Intent(it.context, ProductDetails::class.java).apply {
-                putExtra("from", "click")
-                putExtra("exist", "true")
-                putExtra("inv_title", inv_title)
-                putExtra("category", product.data.category_id[1].toString())
-                putExtra("inventory_line_id", product.id)
-                putExtra("name", product.asset_id[1].toString())
-                putExtra("asset_id", product.asset_id[0].toString())
-                putExtra("inv_id", inv_id)
-                putExtra("location", product.data.location)
-                putExtra("centre_de_cout", product.data.centre_de_cout)
-                putExtra("etat", product.state)
-                putExtra("numSerie", product.data.num_serie)
-                putExtra("quality", product.quality)
+                putExtra(Constants.FROM, "click")
+                putExtra(Constants.EXIST, "true")
+                putExtra(Constants.INVENTORY_TITLE, inv_title)
+                putExtra(Constants.CATEGORY, product.data.category_id[1].toString())
+                putExtra(Constants.INVENTORY_LINE_ID, product.id)
+                putExtra(Constants.NAME, product.asset_id[1].toString())
+                putExtra(Constants.ASSET_ID, product.asset_id[0].toString())
+                putExtra(Constants.INVENTORY_ID, inv_id)
+                putExtra(Constants.LOCATION, product.data.location)
+                putExtra(Constants.CENTRE_DE_COUT, product.data.centre_de_cout)
+                putExtra(Constants.ETAT, product.state)
+                putExtra(Constants.NUMERO_DE_SERIE, product.data.num_serie)
+                putExtra(Constants.QUALITY, product.quality)
                 putExtra(
-                    "dateInventory",
+                    Constants.DATE_INVENTORY,
                     LocalDateTime.now(ZoneId.of("GMT+1"))
                         .format(DateTimeFormatter.ofPattern("y-MM-d H:mm:ss")).toString()
                 )
-                putExtra("comment", product.comment)
-                putExtra("quantite", product.data.quantite.toInt())
+                putExtra(Constants.COMMENT, product.comment)
+                putExtra(Constants.QUANTITY, product.data.quantite.toInt())
                 if (product.data.employee_affected_id.isNotEmpty()) {
 
                     putExtra(
-                        "employee_affected_id",
+                        Constants.EMPLOYEE_AFFECTED_TO_ID,
                         product.data.employee_affected_id[0].toString()
                     )
                     putExtra(
-                        "employee_affected_id_name",
+                        Constants.EMPLOYEE_AFFECTED_TO_NAME,
                         product.data.employee_affected_id[1].toString()
                     )
                 }

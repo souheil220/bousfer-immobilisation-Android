@@ -213,36 +213,36 @@ class InventoryDetails : AppCompatActivity() {
                                             this@InventoryDetails,
                                             ProductDetails::class.java
                                         ).apply {
-                                            putExtra("exist", "true")
-                                            putExtra("inv_title", inv_title)
-                                            putExtra("from", "QRCODE")
-                                            putExtra("etat", asset.state)
-                                            putExtra("inventory_line_id", asset.id)
+                                            putExtra(Constants.EXIST, "true")
+                                            putExtra(Constants.INVENTORY_TITLE, inv_title)
+                                            putExtra(Constants.FROM, "QRCODE")
+                                            putExtra(Constants.ETAT, asset.state)
+                                            putExtra(Constants.INVENTORY_LINE_ID, asset.id)
                                             putExtra(
-                                                "category",
+                                                Constants.CATEGORY,
                                                 dataListQR[0].category_id[1].toString()
                                             )
                                             putExtra(
-                                                "dateInventory",
+                                                Constants.DATE_INVENTORY,
                                                 LocalDateTime.now(ZoneId.of("GMT+1"))
                                                     .format(DateTimeFormatter.ofPattern("y-MM-d H:mm:ss")).toString()
                                             )
-                                            putExtra("name", dataListQR[0].name)
-                                            putExtra("location", dataListQR[0].location)
-                                            putExtra("centre_de_cout", dataListQR[0].centre_de_cout)
-                                            putExtra("numSerie", dataListQR[0].num_serie)
-                                            putExtra("quality", asset.quality)
-                                            putExtra("quantite", dataListQR[0].quantite.toInt())
-                                            putExtra("asset_id", dataListQR[0].id)
-                                            putExtra("inv_id", inv_id)
+                                            putExtra(Constants.NAME, dataListQR[0].name)
+                                            putExtra(Constants.LOCATION, dataListQR[0].location)
+                                            putExtra(Constants.CENTRE_DE_COUT, dataListQR[0].centre_de_cout)
+                                            putExtra(Constants.NUMERO_DE_SERIE, dataListQR[0].num_serie)
+                                            putExtra(Constants.QUALITY, asset.quality)
+                                            putExtra(Constants.QUANTITY, dataListQR[0].quantite.toInt())
+                                            putExtra(Constants.ASSET_ID, dataListQR[0].id)
+                                            putExtra(Constants.INVENTORY_ID, inv_id)
                                             if (dataListQR[0].employee_affected_id.isNotEmpty()) {
 
                                                 putExtra(
-                                                    "employee_affected_id",
+                                                    Constants.EMPLOYEE_AFFECTED_TO_ID,
                                                     dataListQR[0].employee_affected_id[0].toString()
                                                 )
                                                 putExtra(
-                                                    "employee_affected_id_name",
+                                                    Constants.EMPLOYEE_AFFECTED_TO_NAME,
                                                     dataListQR[0].employee_affected_id[1].toString()
                                                 )
                                             }
@@ -322,36 +322,35 @@ class InventoryDetails : AppCompatActivity() {
                                     this@InventoryDetails,
                                     ProductDetails::class.java
                                 ).apply {
-                                    putExtra("exist", "false")
-                                    putExtra("inv_title", inv_title)
-                                    putExtra("inventory_line_id", dataList[0].id)
+                                    putExtra(Constants.EXIST, "false")
+                                    putExtra(Constants.INVENTORY_TITLE, inv_title)
+                                    putExtra(Constants.INVENTORY_LINE_ID, dataList[0].id)
                                     putExtra(
-                                        "category",
+                                        Constants.CATEGORY,
                                         dataListQR[0].category_id[1].toString()
                                     )
                                     putExtra(
-                                        "dateInventory",
+                                        Constants.DATE_INVENTORY,
                                         LocalDateTime.now(ZoneId.of("GMT+1"))
                                             .format(DateTimeFormatter.ofPattern("y-MM-d H:mm:ss")).toString()
                                     )
-                                    putExtra("name", dataListQR[0].name)
-                                    putExtra("quantite", dataListQR[0].quantite)
-                                    putExtra("location", dataListQR[0].location)
-                                    putExtra("centre_de_cout", dataListQR[0].centre_de_cout)
-                                    putExtra("numSerie", dataListQR[0].num_serie)
-                                    putExtra("quantite", dataListQR[0].quantite.toInt())
-                                    putExtra("asset_id", dataListQR[0].id)
-                                    putExtra("quality", "")
-                                    putExtra("etat", "draft")
-                                    putExtra("inv_id", inv_id)
+                                    putExtra(Constants.NAME, dataListQR[0].name)
+                                    putExtra(Constants.LOCATION, dataListQR[0].location)
+                                    putExtra(Constants.CENTRE_DE_COUT, dataListQR[0].centre_de_cout)
+                                    putExtra(Constants.NUMERO_DE_SERIE, dataListQR[0].num_serie)
+                                    putExtra(Constants.QUANTITY, dataListQR[0].quantite.toInt())
+                                    putExtra(Constants.ASSET_ID, dataListQR[0].id)
+                                    putExtra(Constants.QUALITY, "")
+                                    putExtra(Constants.ETAT, "draft")
+                                    putExtra(Constants.INVENTORY_ID, inv_id)
                                     if (dataListQR[0].employee_affected_id.isNotEmpty()) {
 
                                         putExtra(
-                                            "employee_affected_id",
+                                            Constants.EMPLOYEE_AFFECTED_TO_ID,
                                             dataListQR[0].employee_affected_id[0].toString()
                                         )
                                         putExtra(
-                                            "employee_affected_id_name",
+                                            Constants.EMPLOYEE_AFFECTED_TO_NAME,
                                             dataListQR[0].employee_affected_id[1].toString()
                                         )
                                     }

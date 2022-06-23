@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.hasnaoui.bousferimmobilisation.InventoryDetails
 import com.hasnaoui.bousferimmobilisation.models.SampleModel
 import com.hasnaoui.bousferimmobilisation.databinding.ItemRowListInventaireBinding
+import com.hasnaoui.bousferimmobilisation.utils.Constants
 
 class SampleAdapter(val items:MutableList<SampleModel>):RecyclerView.Adapter<SampleAdapter.ViewHolder> (){
     private lateinit var binding: ItemRowListInventaireBinding
@@ -22,8 +23,8 @@ class SampleAdapter(val items:MutableList<SampleModel>):RecyclerView.Adapter<Sam
        val inventory = items[position]
         holder.itemView.setOnClickListener {
             val intent = Intent(it.context, InventoryDetails::class.java).apply {
-                putExtra("inv_id", inventory.id)
-                putExtra("inv_title", inventory.name)
+                putExtra(Constants.INVENTORY_ID, inventory.id)
+                putExtra(Constants.INVENTORY_TITLE, inventory.name)
             }
                it.context.startActivity(intent)
         }
