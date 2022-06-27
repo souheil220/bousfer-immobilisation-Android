@@ -5,6 +5,7 @@ object Constants {
     const val FILTER_SELECTION: String = "FilterSelection"
     const val EXIST: String = "exist"
     const val FROM: String = "from"
+    const val CODE: String = "code"
     const val INVENTORY_TITLE: String = "inv_title"
     const val ASSET_ID: String = "asset_id"
     const val INVENTORY_ID: String = "inv_id"
@@ -25,7 +26,7 @@ object Constants {
 
 
     //    const val BASE_URL = "http://10.0.2.2:5000"
-//    const val BASE_URL = "http://192.168.137.250:5000"
+//    const val BASE_URL = "http://192.168.137.1:5000"
     const val BASE_URL = "http://10.1.12.47:5000"
     fun inventoryOption(): ArrayList<String> {
         val list = ArrayList<String>()

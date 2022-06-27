@@ -211,27 +211,22 @@
                     android:gravity="center">
 
                     <ImageView
-                        android:id="@+id/image_test_1"
+                        android:id="@+id/image_asset_1"
                         android:layout_width="50dp"
                         android:layout_height="50dp" />
 
 
                     <ImageView
-                        android:id="@+id/image_test_2"
+                        android:id="@+id/image_asset_2"
                         android:layout_width="50dp"
                         android:layout_height="50dp" />
 
                     <ImageView
-                        android:id="@+id/image_test_3"
+                        android:id="@+id/image_asset_3"
                         android:layout_width="50dp"
                         android:layout_height="50dp" />
 
-                    <ImageView
-                        android:id="@+id/expanded_image"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:visibility="invisible"
-                        />
+
                 </LinearLayout>
 
                 <Button
@@ -243,6 +238,30 @@
                     android:layout_marginEnd="10dp"
                     android:background="@color/light_blue"
                     android:text="Ajouter une photo" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:id="@+id/image_inventaire_1"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp" />
+
+
+                    <ImageView
+                        android:id="@+id/image_inventaire_2"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp" />
+
+                    <ImageView
+                        android:id="@+id/image_inventaire_3"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp" />
+
+                </LinearLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_affected_to"

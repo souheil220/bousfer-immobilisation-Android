@@ -22,6 +22,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.zxing.datamatrix.encoder.DefaultPlacement
 import com.hasnaoui.bousferimmobilisation.adapters.AffectationAdapter
 import com.hasnaoui.bousferimmobilisation.databinding.ActivityProductDetailsBinding
 import com.hasnaoui.bousferimmobilisation.databinding.ImageViewerBinding
@@ -33,6 +34,7 @@ import com.karumi.dexter.listener.PermissionDeniedResponse
 import com.karumi.dexter.listener.PermissionGrantedResponse
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.single.PermissionListener
+import com.squareup.picasso.Picasso
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -64,6 +66,8 @@ class ProductDetails : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     private var image3 = ""
     private var name = ""
     private var inv_title = ""
+    private var code =""
+    private var asset_id = 0
 
     private lateinit var gCustomDialog: Dialog
 
@@ -87,8 +91,9 @@ class ProductDetails : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             spinner.adapter = aa
             val exist = intent.getStringExtra(Constants.EXIST)
             val from = intent.getStringExtra(Constants.FROM)
+            code = intent.getStringExtra(Constants.CODE).toString()
             inv_title = intent.getStringExtra(Constants.INVENTORY_TITLE).toString()
-            val asset_id = intent.getIntExtra(Constants.ASSET_ID, 0)
+            asset_id = intent.getStringExtra(Constants.ASSET_ID)!!.toDouble().toInt()
             val inventory_id = intent.getIntExtra(Constants.INVENTORY_ID, 0)
             val id = intent.getIntExtra(Constants.INVENTORY_LINE_ID, 0)
             val quantite = intent.getIntExtra(Constants.QUANTITY,0)
@@ -127,20 +132,37 @@ class ProductDetails : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                 addPicture.visibility = View.GONE
                 saveButton.visibility = View.GONE
                 etComment.isEnabled = false
+
                 etComment.setText(comment?.let { falseToString(it) })
             }
-            if (image != 0) {
-                imageTest1.setImageResource(image)
-            }
 
-            imageTest1.setOnClickListener {
-                filterInventoryDialog(Uri.parse(image1Path))
+            setImageUsingPicasso("image_produit",code.replace("/",""),asset_id.toString(),imageAsset1,1)
+            setImageUsingPicasso("image_produit",code.replace("/",""),asset_id.toString(),imageAsset2,2)
+            setImageUsingPicasso("image_produit",code.replace("/",""),asset_id.toString(),imageAsset3,3)
+
+            setImageUsingPicasso("image_inventory",code.replace("/",""),asset_id.toString(),imageInventaire1,1)
+            setImageUsingPicasso("image_inventory",code.replace("/",""),asset_id.toString(),imageInventaire2,2)
+            setImageUsingPicasso("image_inventory",code.replace("/",""),asset_id.toString(),imageInventaire3,3)
+
+
+
+            imageAsset1.setOnClickListener {
+                filterInventoryDialog(Uri.parse(""),"image_produit","",1)
             }
-            imageTest2.setOnClickListener {
-                filterInventoryDialog(Uri.parse(image2Path))
+            imageAsset2.setOnClickListener {
+                filterInventoryDialog(Uri.parse(""),"image_produit","",2)
             }
-            imageTest3.setOnClickListener {
-                filterInventoryDialog(Uri.parse(image3Path))
+            imageAsset3.setOnClickListener {
+                filterInventoryDialog(Uri.parse(""),"image_produit","",3)
+            }
+            imageInventaire1.setOnClickListener {
+                filterInventoryDialog(Uri.parse(image1Path),"image_inventory",etat,1)
+            }
+            imageInventaire2.setOnClickListener {
+                filterInventoryDialog(Uri.parse(image2Path),"image_inventory",etat,2)
+            }
+            imageInventaire3.setOnClickListener {
+                filterInventoryDialog(Uri.parse(image3Path),"image_inventory",etat,3)
             }
             // Retrieve and cache the system's default "short" animation time.
             addPicture.setOnClickListener {
@@ -246,11 +268,22 @@ class ProductDetails : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
     }
 
-    private fun filterInventoryDialog(image: Uri) {
-        gCustomDialog = Dialog(this@ProductDetails)
+    private fun setImageUsingPicasso(folder:String,code:String,asset_id:String,placement: ImageView,number:Int){
+        Picasso.get().load("${Constants.BASE_URL}/images/$folder/${code.replace("/","")}/${asset_id}image$number.jpg").fit().centerCrop()
+            .into(placement);
+    }
+
+    private fun filterInventoryDialog(image: Uri,folder:String,etat:String,number: Int) {
         val binding: ImageViewerBinding = ImageViewerBinding.inflate(layoutInflater)
+        gCustomDialog = Dialog(this@ProductDetails)
         gCustomDialog.setContentView(binding.root)
+        if(etat == "draft"){
         binding.resizedImage.setImageURI(image)
+        }
+        else{
+            Picasso.get().load("${Constants.BASE_URL}/images/$folder/${code.replace("/","")}/${asset_id}image$number.jpg").fit().centerCrop()
+                .into(binding.resizedImage);
+        }
         gCustomDialog.show()
     }
 
@@ -282,6 +315,7 @@ class ProductDetails : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
             val post = PostRequest(
                 idA,
+                code,
                 name,
                 etCommentA,
                 switchQuality(binding.spinner.selectedItem.toString()),
@@ -319,20 +353,20 @@ class ProductDetails : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                     Log.e("i ", i.toString())
                     when (i) {
                         1 -> {
-                            binding.imageTest1.setImageURI(tempImageUri)
+                            binding.imageInventaire1.setImageURI(tempImageUri)
                             i += 1
                             image1Path = tempImageFilePath
                             image1 = encodeToBase64(image1Path)
                         }
 
                         2 -> {
-                            binding.imageTest2.setImageURI(tempImageUri)
+                            binding.imageInventaire2.setImageURI(tempImageUri)
                             i += 1
                             image2Path = tempImageFilePath
                             image2 = encodeToBase64(image2Path)
                         }
                         3 -> {
-                            binding.imageTest3.setImageURI(tempImageUri)
+                            binding.imageAsset3.setImageURI(tempImageUri)
                             i = 1
                             image3Path = tempImageFilePath
                             image3 = encodeToBase64(image3Path)

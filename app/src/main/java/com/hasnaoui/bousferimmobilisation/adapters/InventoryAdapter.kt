@@ -30,10 +30,10 @@ class InventoryAdapter(private val items: MutableList<InventoryModel>, private v
         holder.bind(items[position])
         val product = items[position]
         holder.itemView.setOnClickListener {
-
             val intent = Intent(it.context, ProductDetails::class.java).apply {
                 putExtra(Constants.FROM, "click")
                 putExtra(Constants.EXIST, "true")
+                putExtra(Constants.CODE, product.data.code)
                 putExtra(Constants.INVENTORY_TITLE, inv_title)
                 putExtra(Constants.CATEGORY, product.data.category_id[1].toString())
                 putExtra(Constants.INVENTORY_LINE_ID, product.id)
@@ -113,7 +113,7 @@ class InventoryAdapter(private val items: MutableList<InventoryModel>, private v
 //                item.image?.let { productImage.setImageResource(it)
 //                }
 //                Picasso.get().load("http://10.0.2.2:5000/images/${item.data.num_serie}.jpg").fit().centerCrop()
-                Picasso.get().load("${Constants.BASE_URL}/images/ZDH6NFPT.jpg").fit().centerCrop()
+                Picasso.get().load("${Constants.BASE_URL}/images/image_produit/${item.data.code.replace("/","")}/${item.data.id}image1.jpg").fit().centerCrop()
                     .into(productImage);
             }
         }

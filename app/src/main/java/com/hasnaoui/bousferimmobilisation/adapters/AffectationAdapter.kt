@@ -61,9 +61,13 @@ class AffectationAdapter (val items:MutableList<AffectationModel>,val etat:Strin
                 })
                 if(etat != "draft"){
                     yesOrNo.isClickable = false;
-                    etComment.isFocusable = true;
-                    etComment.isClickable = true;
-                    etComment.isEnabled = true
+                    etComment.isFocusable = false;
+                    etComment.isClickable = false;
+                    etComment.isEnabled = false
+                    if(item.comment.toString() != "false"){
+
+                    etComment.setText(item.comment.toString())
+                    }
                 }
                 tvItemId.text = item.id.toString()
             }

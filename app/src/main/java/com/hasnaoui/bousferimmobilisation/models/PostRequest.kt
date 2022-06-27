@@ -5,6 +5,7 @@ data class DataAffectation(val text:String,val comment:String,val id:Int,val che
 data class PostRequest(
 //    val headers: Map<String, String>,
     val id:Int,
+    val code:String,
     val name:String,
     val comment: String?,
     val quality: String?,

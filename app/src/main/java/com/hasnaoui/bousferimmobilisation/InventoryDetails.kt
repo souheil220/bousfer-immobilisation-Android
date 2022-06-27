@@ -216,6 +216,7 @@ class InventoryDetails : AppCompatActivity() {
                                             putExtra(Constants.EXIST, "true")
                                             putExtra(Constants.INVENTORY_TITLE, inv_title)
                                             putExtra(Constants.FROM, "QRCODE")
+                                            putExtra(Constants.CODE, asset_code)
                                             putExtra(Constants.ETAT, asset.state)
                                             putExtra(Constants.INVENTORY_LINE_ID, asset.id)
                                             putExtra(
@@ -233,7 +234,7 @@ class InventoryDetails : AppCompatActivity() {
                                             putExtra(Constants.NUMERO_DE_SERIE, dataListQR[0].num_serie)
                                             putExtra(Constants.QUALITY, asset.quality)
                                             putExtra(Constants.QUANTITY, dataListQR[0].quantite.toInt())
-                                            putExtra(Constants.ASSET_ID, dataListQR[0].id)
+                                            putExtra(Constants.ASSET_ID, dataListQR[0].id.toDouble().toString())
                                             putExtra(Constants.INVENTORY_ID, inv_id)
                                             if (dataListQR[0].employee_affected_id.isNotEmpty()) {
 
@@ -323,6 +324,7 @@ class InventoryDetails : AppCompatActivity() {
                                     ProductDetails::class.java
                                 ).apply {
                                     putExtra(Constants.EXIST, "false")
+                                    putExtra(Constants.CODE, asset_code)
                                     putExtra(Constants.INVENTORY_TITLE, inv_title)
                                     putExtra(Constants.INVENTORY_LINE_ID, dataList[0].id)
                                     putExtra(
@@ -339,7 +341,7 @@ class InventoryDetails : AppCompatActivity() {
                                     putExtra(Constants.CENTRE_DE_COUT, dataListQR[0].centre_de_cout)
                                     putExtra(Constants.NUMERO_DE_SERIE, dataListQR[0].num_serie)
                                     putExtra(Constants.QUANTITY, dataListQR[0].quantite.toInt())
-                                    putExtra(Constants.ASSET_ID, dataListQR[0].id)
+                                    putExtra(Constants.ASSET_ID, dataListQR[0].id.toDouble().toString())
                                     putExtra(Constants.QUALITY, "")
                                     putExtra(Constants.ETAT, "draft")
                                     putExtra(Constants.INVENTORY_ID, inv_id)
