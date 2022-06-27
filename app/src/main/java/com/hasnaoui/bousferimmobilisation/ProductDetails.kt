@@ -106,7 +106,7 @@ class ProductDetails : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             val dateInventory = intent.getStringExtra(Constants.DATE_INVENTORY)
             val etat = intent.getStringExtra(Constants.ETAT)!!
             val comment = intent.getStringExtra(Constants.COMMENT)
-            val image = intent.getIntExtra(Constants.IMAGE, 0)
+            val userAffectedTo = intent.getStringExtra(Constants.EMPLOYEE_AFFECTED_TO_NAME)
 
             tvCategory.text = category?.let { falseToString(it) }
             tvTitle.text = falseToString(name)
@@ -259,6 +259,9 @@ class ProductDetails : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                     if(location != "" && location!=null){
                     dataList.add(AffectationModel(true,"",0,"Localisé à: $location"))
                     }
+                    if(userAffectedTo != "" && userAffectedTo!=null){
+                    dataList.add(AffectationModel(true,"",0,"Affecter à: $userAffectedTo"))
+                    }
                     dataList.add(AffectationModel(true,"",0,"Quantité attendue: $quantite"))
                 }
 
@@ -397,6 +400,7 @@ class ProductDetails : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                             val result = inventaireApi.getCheckList(
                                 inventoryLineId.toString()
                             )
+
                             Log.e("CheckList", result.body().toString())
                             Log.e("CheckList", inventoryLineId.toString())
                             if (result.body() != null && result.body()!!.size != 0) {

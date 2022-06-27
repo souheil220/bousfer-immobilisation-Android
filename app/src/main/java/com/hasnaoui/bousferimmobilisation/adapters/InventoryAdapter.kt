@@ -95,24 +95,7 @@ class InventoryAdapter(private val items: MutableList<InventoryModel>, private v
                 }
                 tvNumSerie.text = item.data.num_serie
                 tvDateInventaire.text = item.date
-//                if(item.image != null){
-//
-//                     decodeImage(item.image.toString())
-//                }
-//                else if(item.image2 != "" && item.image2!=null){
-//                    Log.e("image2 ",item.image2)
-//                    decodeImage(item.image2)
-//                }
-//                else if(item.image3 != "" && item.image3!=null){
-//                    Log.e("image3 ",item.image3)
-//                    decodeImage(item.image3)
-//                }
-//                else{
-//                   val  image = ""
-//                }
-//                item.image?.let { productImage.setImageResource(it)
-//                }
-//                Picasso.get().load("http://10.0.2.2:5000/images/${item.data.num_serie}.jpg").fit().centerCrop()
+
                 Picasso.get().load("${Constants.BASE_URL}/images/image_produit/${item.data.code.replace("/","")}/${item.data.id}image1.jpg").fit().centerCrop()
                     .into(productImage);
             }

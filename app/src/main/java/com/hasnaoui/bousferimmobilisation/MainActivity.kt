@@ -36,12 +36,17 @@ import java.lang.Thread.sleep
 class MainActivity : AppCompatActivity() {
     private lateinit var binding:ActivityMainBinding
     private lateinit var toggle:ActionBarDrawerToggle
+    private lateinit var connectionLiveData: ConnectionLiveData
 
     private var dataList:MutableList<SampleModel> = mutableListOf()
     private lateinit var sampleAdapter: SampleAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        connectionLiveData = ConnectionLiveData(this)
+        connectionLiveData.observe(this) { isNetworkAvailable ->
+            Log.e("", "$isNetworkAvailable")
+        }
         binding = ActivityMainBinding.inflate(layoutInflater)
 
 

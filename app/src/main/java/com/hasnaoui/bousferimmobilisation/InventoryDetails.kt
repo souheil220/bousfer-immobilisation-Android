@@ -319,6 +319,7 @@ class InventoryDetails : AppCompatActivity() {
 
                                 Log.e("datalist", dataListQR[0].toString())
 
+
                                 val intent = Intent(
                                     this@InventoryDetails,
                                     ProductDetails::class.java
@@ -326,7 +327,7 @@ class InventoryDetails : AppCompatActivity() {
                                     putExtra(Constants.EXIST, "false")
                                     putExtra(Constants.CODE, asset_code)
                                     putExtra(Constants.INVENTORY_TITLE, inv_title)
-                                    putExtra(Constants.INVENTORY_LINE_ID, dataList[0].id)
+                                    putExtra(Constants.INVENTORY_LINE_ID, 0)
                                     putExtra(
                                         Constants.CATEGORY,
                                         dataListQR[0].category_id[1].toString()
