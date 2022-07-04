@@ -137,9 +137,10 @@ class InventoryDetails : AppCompatActivity() {
     }
 
     private fun filterInventoryDialog() {
-        gCustomDialog = Dialog(this@InventoryDetails)
+        gCustomDialog = Dialog(this@InventoryDetails,R.style.MyDialogStyle)
         val binding: DialogCustumListBinding = DialogCustumListBinding.inflate(layoutInflater)
         gCustomDialog.setContentView(binding.root)
+
         val inventoryOption = Constants.inventoryOption()
         inventoryOption.add(0, Constants.ALL_OPTIONS)
         binding.rvList.layoutManager = LinearLayoutManager(this@InventoryDetails)
@@ -190,7 +191,6 @@ class InventoryDetails : AppCompatActivity() {
     private fun loadInventoryLineQRCode(asset_code: String) {
         val dataListQR: ArrayList<AssetQRModel> = ArrayList()
 
-
         for (asset in dataList) {
             if (asset_code == asset.data.code) {
                 Dexter.withContext(this@InventoryDetails)
@@ -226,14 +226,14 @@ class InventoryDetails : AppCompatActivity() {
                                             putExtra(
                                                 Constants.DATE_INVENTORY,
                                                 LocalDateTime.now(ZoneId.of("GMT+1"))
-                                                    .format(DateTimeFormatter.ofPattern("y-MM-d H:mm:ss")).toString()
+                                                    .format(DateTimeFormatter.ofPattern("y-MM-dd HH:mm:ss")).toString()
                                             )
                                             putExtra(Constants.NAME, dataListQR[0].name)
                                             putExtra(Constants.LOCATION, dataListQR[0].location)
                                             putExtra(Constants.CENTRE_DE_COUT, dataListQR[0].centre_de_cout)
                                             putExtra(Constants.NUMERO_DE_SERIE, dataListQR[0].num_serie)
                                             putExtra(Constants.QUALITY, asset.quality)
-                                            putExtra(Constants.QUANTITY, dataListQR[0].quantite.toInt())
+                                            putExtra(Constants.QUANTITY, dataListQR[0].quantity.toInt())
                                             putExtra(Constants.ASSET_ID, dataListQR[0].id.toDouble().toString())
                                             putExtra(Constants.INVENTORY_ID, inv_id)
                                             if (dataListQR[0].employee_affected_id.isNotEmpty()) {
@@ -335,13 +335,13 @@ class InventoryDetails : AppCompatActivity() {
                                     putExtra(
                                         Constants.DATE_INVENTORY,
                                         LocalDateTime.now(ZoneId.of("GMT+1"))
-                                            .format(DateTimeFormatter.ofPattern("y-MM-d H:mm:ss")).toString()
+                                            .format(DateTimeFormatter.ofPattern("y-MM-dd HH:mm:ss")).toString()
                                     )
                                     putExtra(Constants.NAME, dataListQR[0].name)
                                     putExtra(Constants.LOCATION, dataListQR[0].location)
                                     putExtra(Constants.CENTRE_DE_COUT, dataListQR[0].centre_de_cout)
                                     putExtra(Constants.NUMERO_DE_SERIE, dataListQR[0].num_serie)
-                                    putExtra(Constants.QUANTITY, dataListQR[0].quantite.toInt())
+                                    putExtra(Constants.QUANTITY, dataListQR[0].quantity.toInt())
                                     putExtra(Constants.ASSET_ID, dataListQR[0].id.toDouble().toString())
                                     putExtra(Constants.QUALITY, "")
                                     putExtra(Constants.ETAT, "draft")
@@ -363,7 +363,6 @@ class InventoryDetails : AppCompatActivity() {
                             }
 
                         }
-
 
                     }
 
@@ -426,7 +425,7 @@ class InventoryDetails : AppCompatActivity() {
                         GlobalScope.launch(Dispatchers.Main) {
                             progressBar.visibility = View.VISIBLE
                             val result = inventaireApi.getInventaireLine(inv_id)
-
+                            Log.e("dataList ",result.body().toString())
                             if (result.body() != null)
 //                        Log.e("result ",inv_id)
                             // Checking the results

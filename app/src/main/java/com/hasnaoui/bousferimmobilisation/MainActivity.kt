@@ -6,18 +6,22 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.Settings
+import android.text.Html
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.hasnaoui.bousferimmobilisation.adapters.SampleAdapter
 import com.hasnaoui.bousferimmobilisation.databinding.ActivityMainBinding
@@ -36,72 +40,99 @@ import java.lang.Thread.sleep
 class MainActivity : AppCompatActivity() {
     private lateinit var binding:ActivityMainBinding
     private lateinit var toggle:ActionBarDrawerToggle
-    private lateinit var connectionLiveData: ConnectionLiveData
 
     private var dataList:MutableList<SampleModel> = mutableListOf()
     private lateinit var sampleAdapter: SampleAdapter
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        connectionLiveData = ConnectionLiveData(this)
-        connectionLiveData.observe(this) { isNetworkAvailable ->
-            Log.e("", "$isNetworkAvailable")
-        }
         binding = ActivityMainBinding.inflate(layoutInflater)
-
-
         setContentView(binding.root)
 
+        checkConnectivity()
+
+    }
+
+    private fun checkConnectivity(){
+        val connectivity = ConnectivityStatus(this)
+        connectivity.observe(this, Observer {
+                isConnected ->
+            Log.e("isConnected ", "$isConnected")
+            if(!isConnected){
+                Log.e("False ", "$isConnected")
+                binding.progressBar.visibility = View.INVISIBLE
+                binding.invList.visibility = View.INVISIBLE
+                binding.siwpeToRefresh.isEnabled = false
+                binding.siwpeToRefresh.isRefreshing = false
+                binding.tvEnableWifi.visibility = View.VISIBLE
+                dataList.clear()
+            }
+            else{
+                Log.e("true ", "$isConnected")
+                dataList.clear()
+                binding.tvEnableWifi.visibility = View.INVISIBLE
+                binding.siwpeToRefresh.isEnabled = true
+                binding.siwpeToRefresh.isRefreshing = true
+                binding.invList.visibility = View.VISIBLE
+                binding.apply {
 
 
+                    toggle = ActionBarDrawerToggle(this@MainActivity,drawerLayout,R.string.open,R.string.close)
+                    toggle.drawerArrowDrawable.color = resources.getColor(R.color.black)
+                    drawerLayout.addDrawerListener(toggle)
+                    toggle.syncState()
 
-        binding.apply {
+                    val colorDrawable = ColorDrawable(Color.parseColor("#FFFFFF"))
 
+                    // Set BackgroundDrawable
 
-            toggle = ActionBarDrawerToggle(this@MainActivity,drawerLayout,R.string.open,R.string.close)
-            drawerLayout.addDrawerListener(toggle)
-            toggle.syncState()
+                    // Set BackgroundDrawable
+                    val actionBar: ActionBar? = supportActionBar
 
-            val colorDrawable = ColorDrawable(Color.parseColor("#97CBDC"))
+                    actionBar!!.setBackgroundDrawable(colorDrawable)
+                    actionBar.title = Html.fromHtml("<font color=\"#006ABD\">"+getString(R.string.app_name)+"</font>")
 
-            // Set BackgroundDrawable
+                    supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-            // Set BackgroundDrawable
-            val actionBar: ActionBar? = supportActionBar
-
-            actionBar!!.setBackgroundDrawable(colorDrawable)
-
-            supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
-            navView.setNavigationItemSelectedListener {
-                when(it.itemId){
-                    R.id.profile->{
-                        Toast.makeText(this@MainActivity, "Profile", Toast.LENGTH_SHORT).show()
+                    navView.setNavigationItemSelectedListener {
+                        when(it.itemId){
+                            R.id.profile->{
+                                Toast.makeText(this@MainActivity, "Profile", Toast.LENGTH_SHORT).show()
+                            }
+                            R.id.sign_out->{
+                                Toast.makeText(this@MainActivity, "Sign out", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                        true
                     }
-                    R.id.sign_out->{
-                        Toast.makeText(this@MainActivity, "Sign out", Toast.LENGTH_SHORT).show()
+
+
+
+                    sampleAdapter = SampleAdapter(dataList)
+                    invList. apply {
+                        layoutManager = LinearLayoutManager(this@MainActivity)
+                        adapter= sampleAdapter
+                        loadPartsAndUpdateList()
                     }
                 }
-                true
+
+                refreshApp()
+
+//                loadPartsAndUpdateList()
             }
-
-
-
-            sampleAdapter = SampleAdapter(dataList)
-            invList. apply {
-                layoutManager = LinearLayoutManager(this@MainActivity)
-                adapter= sampleAdapter
-                loadPartsAndUpdateList()
-            }
-        }
-
-        refreshApp()
+        })
     }
+
 
     private fun refreshApp(){
         binding.siwpeToRefresh.setOnRefreshListener {
             dataList.clear()
+            try {
             loadPartsAndUpdateList()
+            }catch (e:Exception){
+                binding.constraintLayout.visibility = View.GONE
+            }
 
         }
     }
@@ -124,7 +155,7 @@ class MainActivity : AppCompatActivity() {
                     // launching a new coroutine
                     GlobalScope.launch (Dispatchers.Main){
                         progressBar.visibility = View.VISIBLE
-                        val result = inventaireApi.getInventaire()
+                        val result = inventaireApi.getInventaire("1")
                         if (result.body() != null)
                         // Checking the results
                             for (inv in 0 until  result.body()!!.size){

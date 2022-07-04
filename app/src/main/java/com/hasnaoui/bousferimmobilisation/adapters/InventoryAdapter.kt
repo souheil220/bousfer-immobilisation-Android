@@ -48,7 +48,7 @@ class InventoryAdapter(private val items: MutableList<InventoryModel>, private v
                 putExtra(
                     Constants.DATE_INVENTORY,
                     LocalDateTime.now(ZoneId.of("GMT+1"))
-                        .format(DateTimeFormatter.ofPattern("y-MM-d H:mm:ss")).toString()
+                        .format(DateTimeFormatter.ofPattern("y-MM-dd HH:mm:ss")).toString()
                 )
                 putExtra(Constants.COMMENT, product.comment)
                 putExtra(Constants.QUANTITY, product.data.quantite.toInt())
@@ -78,7 +78,7 @@ class InventoryAdapter(private val items: MutableList<InventoryModel>, private v
                 tvCategory.text = item.data.category_id[1].toString()
                 tvTitle.text = item.asset_id[1].toString()
                 tvLocation.text = item.data.location
-                tvCentreDeCout.text = item.data.centre_de_cout
+//                tvCentreDeCout.text = item.data.centre_de_cout
                 tvState.text = when (item.state) {
                     "draft" -> {
                         "Non inventorié"

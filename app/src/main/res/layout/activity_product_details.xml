@@ -13,7 +13,7 @@
         android:id="@+id/constraint_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/night_blue"
+        android:background="@color/white"
         >
 
         <ScrollView
@@ -50,7 +50,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginStart="10dp"
                         android:gravity="center"
-                        android:textColor="@color/white" />
+                        android:textColor="@color/light_gray" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -70,7 +70,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginStart="10dp"
                         android:gravity="center"
-                        android:textColor="@color/white" />
+                        android:textColor="@color/light_gray" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -92,29 +92,29 @@
                         <TextView
                             android:id="@+id/tv_location"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="10dp"
-                            android:textColor="@color/white" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp">
-
-                        <ImageView
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
-                            android:src="@drawable/ic_place" />
-
-                        <TextView
-                            android:id="@+id/tv_centre_de_cout"
-                            android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_marginStart="10dp"
-                            android:gravity="center"
-                            android:textColor="@color/white" />
+                            android:textColor="@color/light_gray" />
                     </LinearLayout>
+
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginTop="10dp">-->
+
+<!--                        <ImageView-->
+<!--                            android:layout_width="50dp"-->
+<!--                            android:layout_height="50dp"-->
+<!--                            android:src="@drawable/ic_place" />-->
+
+<!--                        <TextView-->
+<!--                            android:id="@+id/tv_centre_de_cout"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="match_parent"-->
+<!--                            android:layout_marginStart="10dp"-->
+<!--                            android:gravity="center"-->
+<!--                            android:textColor="@color/white" />-->
+<!--                    </LinearLayout>-->
                 </LinearLayout>
 
                 <LinearLayout
@@ -134,7 +134,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginStart="10dp"
                         android:gravity="center"
-                        android:textColor="@color/white" />
+                        android:textColor="@color/light_gray" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -152,7 +152,10 @@
                         android:id="@+id/spinner"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_marginStart="10dp" />
+                        android:layout_marginStart="10dp"
+                        android:backgroundTint="@color/light_gray"
+                        android:popupBackground="@color/white"
+                        />
 
                     <TextView
                         android:id="@+id/tv_quality"
@@ -160,7 +163,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginStart="10dp"
                         android:gravity="center"
-                        android:textColor="@color/white" />
+                        android:textColor="@color/light_gray" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -179,7 +182,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_marginStart="10dp"
-                        android:gravity="center" />
+                        android:gravity="center"
+                        android:textColor="@color/light_gray"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -196,35 +200,68 @@
                     <androidx.appcompat.widget.AppCompatEditText
                         android:id="@+id/et_comment"
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
+                        android:layout_height="100dp"
                         android:layout_marginStart="10dp"
                         android:layout_marginEnd="10dp"
                         android:layout_weight="1"
                         android:gravity="start"
-                        android:inputType="none" />
+                        android:inputType="none"
+                        android:hint="Commentaire"
+                        android:textColorHint="@color/light_gray"
+                        android:textColor="@color/light_gray" />
                 </LinearLayout>
 
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_affected_to"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:minHeight="250dp" />
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:gravity="center">
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        app:cardCornerRadius="12dp"
+                        android:layout_marginEnd="5dp"
+                        android:backgroundTint="@color/white">
+                        <ImageView
+                            android:id="@+id/image_asset_1"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" />
+                    </androidx.cardview.widget.CardView>
 
-                    <ImageView
-                        android:id="@+id/image_asset_1"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp" />
 
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        app:cardCornerRadius="12dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:backgroundTint="@color/white">
+                        <ImageView
+                            android:id="@+id/image_asset_2"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" />
+                    </androidx.cardview.widget.CardView>
 
-                    <ImageView
-                        android:id="@+id/image_asset_2"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp" />
-
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        app:cardCornerRadius="12dp"
+                        android:layout_marginStart="5dp"
+                        android:backgroundTint="@color/white">
                     <ImageView
                         android:id="@+id/image_asset_3"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp" />
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+                    </androidx.cardview.widget.CardView>
 
 
                 </LinearLayout>
@@ -236,7 +273,8 @@
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="10dp"
-                    android:background="@color/light_blue"
+                    android:backgroundTint="@color/light_blue"
+                    android:textColor="@color/white"
                     android:text="Ajouter une photo" />
 
                 <LinearLayout
@@ -244,33 +282,44 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:gravity="center">
-
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        app:cardCornerRadius="12dp"
+                        android:layout_marginEnd="5dp"
+                        android:backgroundTint="@color/white">
                     <ImageView
                         android:id="@+id/image_inventaire_1"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp" />
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+                    </androidx.cardview.widget.CardView>
 
-
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        app:cardCornerRadius="12dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:backgroundTint="@color/white">
                     <ImageView
                         android:id="@+id/image_inventaire_2"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp" />
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+                    </androidx.cardview.widget.CardView>
 
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        app:cardCornerRadius="12dp"
+                        android:layout_marginStart="5dp"
+                        android:backgroundTint="@color/white">
                     <ImageView
                         android:id="@+id/image_inventaire_3"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp" />
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+                    </androidx.cardview.widget.CardView>
 
                 </LinearLayout>
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_affected_to"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="10dp"
-                    android:height="300dp" />
 
                 <Button
                     android:id="@+id/save_button"
@@ -279,7 +328,8 @@
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="10dp"
-                    android:background="@color/light_blue"
+                   android:backgroundTint="@color/light_blue"
+                    android:textColor="@color/white"
                     android:text="Sauvgarder" />
 
                 <ProgressBar

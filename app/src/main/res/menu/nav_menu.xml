@@ -3,11 +3,12 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/profile"
-            android:icon="@drawable/ic_user_place_holder"
+            android:icon="@drawable/ic_profile"
             android:title="@string/my_profile"/>
         <item
             android:id="@+id/sign_out"
-            android:icon="@drawable/ic_nav_sign_out"
-            android:title="@string/sign_out"/>
+            android:icon="@drawable/ic_logout"
+            android:title="@string/sign_out"
+            />
     </group>
 </menu>

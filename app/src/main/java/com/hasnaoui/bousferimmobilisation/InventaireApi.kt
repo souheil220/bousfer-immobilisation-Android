@@ -6,7 +6,7 @@ import retrofit2.http.*
 
 interface InventaireApi {
     @GET("/get_inventaire")
-    suspend fun getInventaire() : Response<TestModel>
+    suspend fun getInventaire(@Query("loaction")location:String) : Response<TestModel>
 
     @GET("/get_inventaire_ligne")
     suspend fun getInventaireLine(@Query("inv_id")inv_id:String) : Response<TestModelINV>

@@ -25,9 +25,10 @@ object Constants {
     const val EMPLOYEE_AFFECTED_TO_NAME: String = "employee_affected_id_name"
 
 
-    //    const val BASE_URL = "http://10.0.2.2:5000"
-//    const val BASE_URL = "http://192.168.137.1:5000"
-    const val BASE_URL = "http://10.1.12.47:5000"
+//        const val BASE_URL = "http://10.0.2.2:5000"
+//    const val BASE_URL = "http://172.27.236.225:5000"
+//    const val BASE_URL = "http://10.1.12.47:5000"
+    const val BASE_URL = "http://api.imob.bousfer.groupe-hasnaoui.com"
     fun inventoryOption(): ArrayList<String> {
         val list = ArrayList<String>()
         list.add("Inventorié")

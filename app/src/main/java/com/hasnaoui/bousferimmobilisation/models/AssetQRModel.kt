@@ -13,7 +13,7 @@ data class AssetQRModel(
     val location:String,
     val name:String,
     val num_serie:String,
-    val quantite:Double
+    val quantity:Double
 )
 
 data class AssetQRModelApi(val asset: MutableList<AssetQRModel>){

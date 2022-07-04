@@ -10,7 +10,7 @@
         android:id="@+id/constraint_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/dark_blue">
+        android:background="@color/white">
 
         <ProgressBar
             android:id="@+id/progressBar"
@@ -38,13 +38,25 @@
                />
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+        <TextView
+            android:id="@+id/tv_enable_wifi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:text="Please Activate Wifi"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:visibility="invisible"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
         <com.google.android.material.navigation.NavigationView
             android:id="@+id/navView"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             app:menu="@menu/nav_menu"
-            app:headerLayout="@layout/nav_header"
             android:layout_gravity="start"
             android:fitsSystemWindows="true"/>
 

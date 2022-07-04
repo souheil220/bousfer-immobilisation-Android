@@ -15,7 +15,8 @@
             android:id="@+id/tv_text_info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TextView" />
+            android:text="TextView"
+            android:textColor="@color/light_gray"/>
 
         <EditText
             android:id="@+id/et_comment"
@@ -23,7 +24,10 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="Name" />
+            android:hint="Commentaire"
+            android:textColor="@color/black"
+            android:textColorHint="@color/light_gray"
+            />
         <TextView
             android:id="@+id/tv_item_id"
             android:layout_width="match_parent"

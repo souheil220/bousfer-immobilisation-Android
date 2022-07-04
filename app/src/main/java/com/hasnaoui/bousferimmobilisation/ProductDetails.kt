@@ -1,7 +1,6 @@
 package com.hasnaoui.bousferimmobilisation
 
 import android.Manifest
-import android.R
 import android.app.Dialog
 import android.content.ActivityNotFoundException
 import android.content.Intent
@@ -11,6 +10,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.provider.Settings
+import android.text.Html
 import android.util.Base64
 import android.util.Log
 import android.view.View
@@ -22,7 +22,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.zxing.datamatrix.encoder.DefaultPlacement
 import com.hasnaoui.bousferimmobilisation.adapters.AffectationAdapter
 import com.hasnaoui.bousferimmobilisation.databinding.ActivityProductDetailsBinding
 import com.hasnaoui.bousferimmobilisation.databinding.ImageViewerBinding
@@ -77,15 +76,16 @@ class ProductDetails : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         setContentView(binding.root)
 
         val actionBar: ActionBar? = supportActionBar
-        val colorDrawable = ColorDrawable(Color.parseColor("#97CBDC"))
+        val colorDrawable = ColorDrawable(Color.parseColor("#FFFFFF"))
         actionBar!!.setBackgroundDrawable(colorDrawable)
+        actionBar.title = Html.fromHtml("<font color=\"#006ABD\">"+getString(com.hasnaoui.bousferimmobilisation.R.string.app_name)+"</font>")
 
         binding.apply {
             spinner.onItemSelectedListener = this@ProductDetails
             // Create an ArrayAdapter using a simple spinner layout and languages array
-            val aa = ArrayAdapter(this@ProductDetails, R.layout.simple_spinner_item, list_of_items)
+            val aa = ArrayAdapter(this@ProductDetails, R.layout.spinner_list, list_of_items)
             // Set layout to use when the list of choices appear
-            aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            aa.setDropDownViewResource(R.layout.spinner_list)
 
             // Set Adapter to Spinner
             spinner.adapter = aa
@@ -110,7 +110,7 @@ class ProductDetails : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
             tvCategory.text = category?.let { falseToString(it) }
             tvTitle.text = falseToString(name)
-            tvCentreDeCout.text = centre_de_cout?.let { falseToString(it) }
+//            tvCentreDeCout.text = centre_de_cout?.let { falseToString(it) }
             tvLocation.text = location?.let { falseToString(it) }
             tvNumSerie.text = numSerie?.let { falseToString(it) }
 
@@ -134,15 +134,17 @@ class ProductDetails : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                 etComment.isEnabled = false
 
                 etComment.setText(comment?.let { falseToString(it) })
+
+                setImageUsingPicasso("image_inventory",inventory_id,code.replace("/",""),asset_id.toString(),imageInventaire1,1)
+                setImageUsingPicasso("image_inventory",inventory_id,code.replace("/",""),asset_id.toString(),imageInventaire2,2)
+                setImageUsingPicasso("image_inventory",inventory_id,code.replace("/",""),asset_id.toString(),imageInventaire3,3)
             }
 
-            setImageUsingPicasso("image_produit",code.replace("/",""),asset_id.toString(),imageAsset1,1)
-            setImageUsingPicasso("image_produit",code.replace("/",""),asset_id.toString(),imageAsset2,2)
-            setImageUsingPicasso("image_produit",code.replace("/",""),asset_id.toString(),imageAsset3,3)
+            setImageUsingPicasso("image_produit",null,code.replace("/",""),asset_id.toString(),imageAsset1,1)
+            setImageUsingPicasso("image_produit",null,code.replace("/",""),asset_id.toString(),imageAsset2,2)
+            setImageUsingPicasso("image_produit",null,code.replace("/",""),asset_id.toString(),imageAsset3,3)
 
-            setImageUsingPicasso("image_inventory",code.replace("/",""),asset_id.toString(),imageInventaire1,1)
-            setImageUsingPicasso("image_inventory",code.replace("/",""),asset_id.toString(),imageInventaire2,2)
-            setImageUsingPicasso("image_inventory",code.replace("/",""),asset_id.toString(),imageInventaire3,3)
+
 
 
 
@@ -271,9 +273,23 @@ class ProductDetails : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
     }
 
-    private fun setImageUsingPicasso(folder:String,code:String,asset_id:String,placement: ImageView,number:Int){
+    private fun setImageUsingPicasso(
+        folder:String,
+        inventory_id: Int?,
+        code:String,
+        asset_id:String,
+        placement: ImageView,
+        number:Int){
+        if(folder == "image_produit"){
+
         Picasso.get().load("${Constants.BASE_URL}/images/$folder/${code.replace("/","")}/${asset_id}image$number.jpg").fit().centerCrop()
             .into(placement);
+        }
+        else{
+            Log.e("inventaire id ","${Constants.BASE_URL}/images/$folder/$inventory_id/${code.replace("/","")}/${asset_id}image$number.jpg")
+            Picasso.get().load("${Constants.BASE_URL}/images/$folder/$inventory_id/${code.replace("/","")}/${asset_id}image$number.jpg").fit().centerCrop()
+                .into(placement);
+        }
     }
 
     private fun filterInventoryDialog(image: Uri,folder:String,etat:String,number: Int) {
@@ -334,6 +350,7 @@ class ProductDetails : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             progressBar.visibility = View.VISIBLE
             if (exist) {
                 Log.e("Post ", exist.toString())
+                Log.e("Post ", post.toString())
                 inventaireApi.saveAssetAssetLine(post)
             } else {
                 Log.e("Post ", exist.toString())

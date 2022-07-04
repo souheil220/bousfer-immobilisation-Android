@@ -12,8 +12,9 @@
 
     <color name="night_blue">#001B48</color>
     <color name="dark_blue">#004581</color>
-    <color name="light_blue">#97CBDC</color>
+    <color name="light_blue">#006ABD</color>
     <color name="shrimp">#FCD5CE</color>
+    <color name="transparent">#00FCCECE</color>
 
 
     <color name="blue_grey_700">#37474f</color>
@@ -22,5 +23,5 @@
     <color name="divider_line_color">#e0e0e0</color>
 
     <color name="blue_grey_900">#263238</color>
-    <color name="grey_500">#9E9E9E</color>
+    <color name="light_gray">#7A7A7A</color>
 </resources>

@@ -10,7 +10,7 @@
         android:id="@+id/tv_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/selectableItemBackground"
+
         android:gravity="center"
         android:padding="10sp"
         android:textAllCaps="true"
