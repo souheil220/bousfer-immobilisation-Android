@@ -6,7 +6,10 @@ import retrofit2.http.*
 
 interface InventaireApi {
     @GET("/get_inventaire")
-    suspend fun getInventaire(@Query("loaction")location:String) : Response<TestModel>
+    suspend fun getInventaire(@Query("id")id:Int) : Response<TestModel>
+
+    @GET("/logout")
+    suspend fun getLogout(@Query("id")id:Int) : Response<String>
 
     @GET("/get_inventaire_ligne")
     suspend fun getInventaireLine(@Query("inv_id")inv_id:String) : Response<TestModelINV>
@@ -20,9 +23,12 @@ interface InventaireApi {
     @GET("/check_list")
     suspend fun getCheckList(@Query("inventory_line_id")inventory_line_id:String) : Response<AffectedToApiModel>
 
-
     @POST("/save_asset_asset_line")
     suspend fun saveAssetAssetLine(@Body request:PostRequest):Response<PostRequest>
+
+    @POST("/login")
+    suspend fun login(@Body request:LoginModel):Response<LoginModelResponse>
+
 
     @POST("/save_asset_asset_line_exist_not")
     suspend fun saveAssetAssetLineExistNot(@Body request:PostRequest):Response<PostRequest>

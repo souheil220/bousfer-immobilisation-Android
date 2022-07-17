@@ -19,16 +19,14 @@ import java.util.*
 
 class InventoryAdapter(private val items: MutableList<InventoryModel>, private val inv_id: Int,private val inv_title:String) :
     RecyclerView.Adapter<InventoryAdapter.ViewHolder>() {
-    private lateinit var binding: ItemRowInventoryLineBinding
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): InventoryAdapter.ViewHolder {
-        val inflater = LayoutInflater.from(parent.context)
-        binding = ItemRowInventoryLineBinding.inflate(inflater, parent, false)
-        return ViewHolder(binding)
+        return ViewHolder( ItemRowInventoryLineBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }
 
-    override fun onBindViewHolder(holder: InventoryAdapter.ViewHolder, position: Int) {
-        holder.bind(items[position])
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val product = items[position]
+        holder.bind(items[position])
         holder.itemView.setOnClickListener {
             val intent = Intent(it.context, ProductDetails::class.java).apply {
                 putExtra(Constants.FROM, "click")
@@ -71,15 +69,15 @@ class InventoryAdapter(private val items: MutableList<InventoryModel>, private v
 
     override fun getItemCount() = items.size
 
-    inner class ViewHolder(itemView: ItemRowInventoryLineBinding) :
-        RecyclerView.ViewHolder(binding.root) {
+    inner class ViewHolder(val itemBinding: ItemRowInventoryLineBinding) :
+        RecyclerView.ViewHolder(itemBinding.root) {
         fun bind(item: InventoryModel) {
-            binding.apply {
-                tvCategory.text = item.data.category_id[1].toString()
-                tvTitle.text = item.asset_id[1].toString()
-                tvLocation.text = item.data.location
+
+            itemBinding.tvCategory.text = item.data.category_id[1].toString()
+            itemBinding.tvTitle.text = item.asset_id[1].toString()
+            itemBinding.tvLocation.text = item.data.location
 //                tvCentreDeCout.text = item.data.centre_de_cout
-                tvState.text = when (item.state) {
+            itemBinding.tvState.text = when (item.state) {
                     "draft" -> {
                         "Non inventorié"
                     }
@@ -93,13 +91,12 @@ class InventoryAdapter(private val items: MutableList<InventoryModel>, private v
                         ""
                     }
                 }
-                tvNumSerie.text = item.data.num_serie
-                tvDateInventaire.text = item.date
+            itemBinding.tvNumSerie.text = item.data.num_serie
+            itemBinding.tvDateInventaire.text = item.date
 
                 Picasso.get().load("${Constants.BASE_URL}/images/image_produit/${item.data.code.replace("/","")}/${item.data.id}image1.jpg").fit().centerCrop()
-                    .into(productImage);
+                    .into(itemBinding.productImage);
             }
         }
 
     }
-}

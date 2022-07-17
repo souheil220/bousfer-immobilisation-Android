@@ -10,35 +10,35 @@ import com.hasnaoui.bousferimmobilisation.models.SampleModel
 import com.hasnaoui.bousferimmobilisation.databinding.ItemRowListInventaireBinding
 import com.hasnaoui.bousferimmobilisation.utils.Constants
 
-class SampleAdapter(val items:MutableList<SampleModel>):RecyclerView.Adapter<SampleAdapter.ViewHolder> (){
-    private lateinit var binding: ItemRowListInventaireBinding
+class SampleAdapter(val items: MutableList<SampleModel>) :
+    RecyclerView.Adapter<SampleAdapter.ViewHolder>() {
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val inflater = LayoutInflater.from(parent.context)
-        binding = ItemRowListInventaireBinding.inflate(inflater,parent,false)
-        return ViewHolder(binding)
+        return ViewHolder(ItemRowListInventaireBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(items[position ])
-       val inventory = items[position]
+        holder.bind(items[position])
+        val inventory = items[position]
         holder.itemView.setOnClickListener {
             val intent = Intent(it.context, InventoryDetails::class.java).apply {
                 putExtra(Constants.INVENTORY_ID, inventory.id)
                 putExtra(Constants.INVENTORY_TITLE, inventory.name)
             }
-               it.context.startActivity(intent)
+            it.context.startActivity(intent)
         }
     }
 
     override fun getItemCount() = items.size
 
-    inner class ViewHolder(itemView: ItemRowListInventaireBinding):RecyclerView.ViewHolder(itemView.root){
-            fun bind(item: SampleModel){
-                binding.apply {
-                    inventoryId.text = item.name
+    inner class ViewHolder(val itemBinding: ItemRowListInventaireBinding) :
+        RecyclerView.ViewHolder(itemBinding.root) {
+        fun bind(item: SampleModel) {
 
-                    confirmation.text = item.state
-                }
-            }
+            itemBinding.inventoryId.text = item.name
+
+            itemBinding.confirmation.text = item.state
+
+        }
     }
 }

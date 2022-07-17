@@ -7,10 +7,13 @@ import android.app.Dialog
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.res.ColorStateList
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
 import android.text.Editable
+import android.text.Html
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
@@ -19,8 +22,10 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBar
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.hasnaoui.bousferimmobilisation.adapters.CustomListItemAdapter
 import com.hasnaoui.bousferimmobilisation.adapters.InventoryAdapter
@@ -43,6 +48,11 @@ import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.*
+import kotlin.collections.ArrayList
+import android.view.Gravity
+
+
+
 
 
 class InventoryDetails : AppCompatActivity() {
@@ -61,6 +71,8 @@ class InventoryDetails : AppCompatActivity() {
 
         setContentView(binding.root)
 
+        checkConnectivity()
+
 
 
         val appBarTitle:TextView = findViewById(R.id.inv_title)
@@ -72,49 +84,78 @@ class InventoryDetails : AppCompatActivity() {
             startActivity(intent)
         }
 
-        loadInventoryLine(inv_id.toString(), "onCreate")
-
-
-        binding.apply {
-            createMyRecycle(dataList,inv_title)
-
-            val scanIcon: ImageView = findViewById(R.id.qr_scanner_o)
-
-            scanIcon.setOnClickListener {
-                barcodeLauncher.launch(ScanOptions())
-            }
-
-            val filterIcon: ImageView = findViewById(R.id.filter_icon)
-
-            filterIcon.setOnClickListener {
-                filterInventoryDialog()
-            }
-
-
-            etSearch.addTextChangedListener(object : TextWatcher {
-                override fun afterTextChanged(s: Editable?) {
-                    search(s.toString())
-                }
-
-
-                override fun beforeTextChanged(
-                    s: CharSequence?,
-                    start: Int,
-                    count: Int,
-                    after: Int
-                ) {
-                }
-
-                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-
-                }
-            })
-
-            swipeToRefresh()
-        }
-
 
     }
+
+    private fun checkConnectivity(){
+        val connectivity = ConnectivityStatus(this)
+        connectivity.observe(this, Observer {
+                isConnected ->
+            Log.e("isConnected ", "$isConnected")
+            if(!isConnected){
+                Log.e("False ", "$isConnected")
+                binding.progressBarFragment.visibility = View.INVISIBLE
+                binding.etSearch.visibility = View.INVISIBLE
+                binding.detailListNonInv.visibility = View.INVISIBLE
+                binding.siwpeToRefreshFragment.isEnabled = false
+                binding.siwpeToRefreshFragment.isRefreshing = false
+                binding.tvEnableWifi.visibility = View.VISIBLE
+                dataList.clear()
+            }
+            else{
+                Log.e("true ", "$isConnected")
+                dataList.clear()
+                binding.tvEnableWifi.visibility = View.INVISIBLE
+                binding.siwpeToRefreshFragment.isEnabled = true
+                binding.siwpeToRefreshFragment.isRefreshing = true
+                binding.detailListNonInv.visibility = View.VISIBLE
+
+
+
+                binding.apply {
+                    createMyRecycle(dataList,inv_title)
+
+                    val scanIcon: ImageView = findViewById(R.id.qr_scanner_o)
+
+                    scanIcon.setOnClickListener {
+                        barcodeLauncher.launch(ScanOptions())
+                    }
+
+                    val filterIcon: ImageView = findViewById(R.id.filter_icon)
+
+                    filterIcon.setOnClickListener {
+                        filterInventoryDialog()
+                    }
+
+
+                    etSearch.addTextChangedListener(object : TextWatcher {
+                        override fun afterTextChanged(s: Editable?) {
+                            search(s.toString())
+                        }
+
+
+                        override fun beforeTextChanged(
+                            s: CharSequence?,
+                            start: Int,
+                            count: Int,
+                            after: Int
+                        ) {
+                        }
+
+                        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+                        }
+                    })
+
+                    swipeToRefresh()
+                }
+
+
+                loadInventoryLine(inv_id.toString(), "checkConnectivity")
+            }
+        })
+    }
+
 
     private fun swipeToRefresh() {
         binding.siwpeToRefreshFragment.setOnRefreshListener {
@@ -127,7 +168,7 @@ class InventoryDetails : AppCompatActivity() {
         val filteredListSearch = ArrayList<InventoryModel>()
         Log.e("Text", text)
         for (product in dataList) {
-            if (product.data.name.lowercase(Locale.ROOT).contains(text.lowercase(Locale.ROOT))) {
+            if (product.data.name.lowercase(Locale.ROOT).contains(text.lowercase(Locale.ROOT)) || product.data.code.lowercase(Locale.ROOT).contains(text.lowercase(Locale.ROOT))) {
                 filteredListSearch.add(product)
             }
         }
@@ -423,22 +464,42 @@ class InventoryDetails : AppCompatActivity() {
                             RetrofitHelper.getInstance().create(InventaireApi::class.java)
                         // launching a new coroutine
                         GlobalScope.launch(Dispatchers.Main) {
-                            progressBar.visibility = View.VISIBLE
-                            val result = inventaireApi.getInventaireLine(inv_id)
-                            Log.e("dataList ",result.body().toString())
-                            if (result.body() != null)
+                            try{
+                                dataList.clear()
+                                binding.tvEnableWifi.visibility = View.INVISIBLE
+                                binding.siwpeToRefreshFragment.isEnabled = true
+                                binding.siwpeToRefreshFragment.isRefreshing = true
+                                binding.detailListNonInv.visibility = View.VISIBLE
+                                progressBar.visibility = View.VISIBLE
+                                val result = inventaireApi.getInventaireLine(inv_id)
+                                Log.e("dataList ",result.body().toString())
+                                if (result.body() != null)
 //                        Log.e("result ",inv_id)
-                            // Checking the results
-                                for (inv in 0 until result.body()!!.size) {
+                                // Checking the results
+                                    for (inv in 0 until result.body()!!.size) {
 
-                                    dataList.add(result.body()!![inv])
+                                        dataList.add(result.body()!![inv])
 
-                                }
-                            progressBar.visibility = View.INVISIBLE
-                            inventoryAdapter.notifyDataSetChanged()
+                                    }
+                                progressBar.visibility = View.INVISIBLE
+                                inventoryAdapter.notifyDataSetChanged()
+
+                            }catch (e:Exception){
+
+                                binding.progressBarFragment.visibility = View.INVISIBLE
+                                binding.etSearch.visibility = View.INVISIBLE
+                                binding.detailListNonInv.visibility = View.INVISIBLE
+                                binding.siwpeToRefreshFragment.isRefreshing = false
+                                binding.tvEnableWifi.visibility = View.VISIBLE
+                                dataList.clear()
+                                binding.tvEnableWifi.gravity =
+                                    Gravity.CENTER_VERTICAL or Gravity.CENTER_HORIZONTAL
+                                binding.tvEnableWifi.gravity = Gravity.CENTER;
+                                binding.tvEnableWifi.text = "Une erreur est survenu veuillez contacter l'administrateur réseau"
+                            }
                         }
-
                         binding.siwpeToRefreshFragment.isRefreshing = false
+                      
                     }
 
 
